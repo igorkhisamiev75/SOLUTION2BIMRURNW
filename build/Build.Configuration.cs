@@ -16,7 +16,7 @@ sealed partial class Build
     /// </summary>
     Project[] Bundles =>
     [
-        Solution.SOLUTION2BIMRURNW
+        Solution.RevitAddIn2BIMRU
     ];
 
     /// <summary>
@@ -24,7 +24,7 @@ sealed partial class Build
     /// </summary>
     Dictionary<Project, Project> InstallersMap => new()
     {
-        {Solution.Automation.Installer, Solution.SOLUTION2BIMRURNW}
+        {Solution.Automation.Installer, Solution.RevitAddIn2BIMRU}
     };
 
     /// <summary>

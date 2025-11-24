@@ -21,7 +21,7 @@ namespace RevitAddIn2BIMRU
         {
             RibbonPanel panel = Application.CreatePanel("INFO", "RevitAddIn2BIMRU");
 
-            panel.AddPushButton<StartupCommand>("Execute")
+            panel.AddPushButton<StartupCommand>("Ссылка на сайт ")
                 .SetImage("/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")
                 .SetLargeImage("/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png");
         }

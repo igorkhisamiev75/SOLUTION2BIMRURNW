@@ -1,0 +1,16 @@
+﻿<RevitAddIns>
+    <AddIn Type="Command">
+        <Name>RevitAddInBIM</Name>
+        <Assembly>RevitAddInBIM\RevitAddInBIM.dll</Assembly>
+        <AddInId>7B17FF90-0475-4B0D-A85E-31CF7F294BA9</AddInId>
+        <FullClassName>RevitAddInBIM.Commands.StartupCommand</FullClassName>
+        <Text>RevitAddInBIM</Text>
+        <VendorId>Development</VendorId>
+        <VendorDescription></VendorDescription>
+        <VendorEmail></VendorEmail>
+    </AddIn>
+    <ManifestSettings>
+        <UseRevitContext>False</UseRevitContext>
+        <ContextName>RevitAddInBIM</ContextName>
+    </ManifestSettings>
+</RevitAddIns>
