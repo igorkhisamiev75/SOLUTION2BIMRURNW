@@ -49,6 +49,7 @@ namespace RevitAddIn2BIMRU
                 .SetToolTip("Описание четвертой команды");
 
             // Интегрируем кнопки из старого кода
+
             AddBIMv2Buttons();
         }
 
