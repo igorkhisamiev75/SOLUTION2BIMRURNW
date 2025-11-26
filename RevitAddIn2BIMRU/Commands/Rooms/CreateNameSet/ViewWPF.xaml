@@ -1,0 +1,127 @@
+﻿<Window x:Class="RevitAddIn2BIMRU.Commands.ViewWPF"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:local="clr-namespace:RevitAddIn2BIMRU.Commands"
+        mc:Ignorable="d" 
+        Title="Создать имена помещений"
+        Height="752" 
+        Width="554"
+        WindowStyle="None"
+        ResizeMode="CanResize"
+        >
+    <Grid Margin="0,0,-5.714,12.429">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0.2*"/>
+        </Grid.ColumnDefinitions>
+        <Button Content="OK" 
+                HorizontalAlignment="Left" 
+                Margin="0,10,0,0" 
+                VerticalAlignment="Top" 
+                Width="75" Height="21" 
+                Grid.Column="1" Click="Button_Click"/>
+        <Button Content="CANCEL" 
+                HorizontalAlignment="Left" 
+                Margin="0,36,0,0" 
+                VerticalAlignment="Top" Width="75" 
+                Grid.Column="1" Height="21" Click="Button_Click_1"/>
+        <RichTextBox 
+                     Name="RichTextBox"
+                     HorizontalAlignment="Left" 
+                     Height="704" 
+                     Margin="10,00,10,10" 
+                     VerticalAlignment="Center" 
+                     Width="446">
+            <FlowDocument>
+                <Paragraph>
+                    <Run Text=
+                         "Жилая комната;
+Прихожая;
+Душевая;
+Санузел;
+Кухня-ниша;
+Гардеробная;
+Коридор;
+Ванная;
+Холл;
+Кухня-гостиная;
+Кухня;
+Лоджия;
+Балкон;
+Терраса;
+Встроенный шкаф;
+Антресоль;
+Зимний сад;
+Тамбур;
+ПУИ;
+Диспетчерская;
+Венткамера;
+Насосная;
+Водомерный узел;
+ИТП;
+Электрощитовая;
+Арендопригодное помещение;
+Санузел МГН;
+Переговорная;
+Кладовая;
+Помещение хранения люминесцентных ламп;
+Автостоянка;
+Помещение уборочной техники;
+Помещение охраны;
+Санузел охраны;
+Кабельная;
+Помещение хранения первичных средств пожаротушения;
+Помещение;
+Серверная;
+Воздухозаборная шахта;
+Машинное помещение;
+Помещение техподполья;
+Техническое помещение;
+Узел управления;
+Бойлерная;
+Помещение водоподготовки бассейна;
+Лифтовой холл;
+Колясочная;
+Помещение почтовых ящиков;
+Лестничная клетка;
+Мусоросборная камера;
+Зона безопасности МГН;
+Помещение консьержа;
+Санузел консьержа;
+Пож. Насосная;
+Хоз. Насосная;
+Помещение кабельного ввода;
+Помещение управления лифтами;
+Подвал;
+Световой холл место для отдыха;
+Гладильная;
+Сушильная;
+Постирочная;
+Трансформаторная подстанция;
+Узел учета;
+Помещение для велосипедов;
+Помещение для мытья лап собак;
+АУПТ;
+Санузел диспетчерской;
+Помещение АТС;
+Балкон для сплит-систем;
+Помещение мойки;
+Техническое помещение для нужд инженерных ведомств города;
+Офис;
+Торговый зал;
+Холодильный центр;
+Помещение отдыха;
+Помещение администратора;
+Помещение приема пищи;
+Помещение СС;
+Помещение отдыха консьержа;
+ГРЩ;
+Помещение РУ;
+Помещение службы эксплуатации;"/>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+    </Grid>
+</Window>
