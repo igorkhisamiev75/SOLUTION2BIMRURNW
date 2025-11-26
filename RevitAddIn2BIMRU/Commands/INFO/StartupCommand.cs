@@ -3,12 +3,9 @@ using Autodesk.Revit.UI;
 
 using Nice3point.Revit.Toolkit.External;
 
-using RevitAddIn2BIMRU.ViewModels;
-using RevitAddIn2BIMRU.Views;
-
 using System.Diagnostics;
 
-namespace RevitAddIn2BIMRU.Commands
+namespace RevitAddIn2BIMRU.Commands.INFO
 {
     [UsedImplicitly]
     [Transaction(TransactionMode.Manual)]
@@ -19,10 +16,6 @@ namespace RevitAddIn2BIMRU.Commands
             // Открываем сайт при запуске команды
             OpenWebsite("https://2bim.ru/");
 
-            //var viewModel = new RevitAddIn2BIMRUViewModel();
-            //var view = new RevitAddIn2BIMRUView(viewModel);
-            //TaskDialog.Show("1", "11");
-            //view.ShowDialog();
         }
 
         private void OpenWebsite(string url)
@@ -35,7 +28,7 @@ namespace RevitAddIn2BIMRU.Commands
                     UseShellExecute = true
                 });
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 TaskDialog.Show("Ошибка", $"Не удалось открыть сайт: {ex.Message}");
             }

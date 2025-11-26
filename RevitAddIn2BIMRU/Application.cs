@@ -1,12 +1,10 @@
 ﻿using Autodesk.Revit.UI;
 
-using Nice3point.Revit.Extensions;
 using Nice3point.Revit.Toolkit.External;
 
 using RevitAddIn2BIMRU.Commands;
+using RevitAddIn2BIMRU.Commands.INFO;
 
-using System;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Windows.Media.Imaging;
 
@@ -30,46 +28,68 @@ namespace RevitAddIn2BIMRU
             string panelNameRooms = "Rooms";
             string panelNameAR = "AR-Архитектура";
             string panelNameAI = "AI-Дизайн";
-            string panelNameElectric = "MEP-Надстройки";
+            string panelNameMEP = "MEP-Надстройки";
             string panelNameAnnotation = "AN-Аннотации";
             string panelNameBim = "BIM-Менеджер";
             string panelNameInfo = "Info";
 
-
-            // Создаем основную панель Rooms (как в вашем исходном коде)
+            // Создаем основную панели
             RibbonPanel roomsPanel = Application.CreatePanel(panelNameRooms, tabName);
             RibbonPanel arPanel = Application.CreatePanel(panelNameAR, tabName);
             RibbonPanel aiPanel = Application.CreatePanel(panelNameAI, tabName);
-            RibbonPanel mepPanel = Application.CreatePanel(panelNameElectric, tabName);
+            RibbonPanel mepPanel = Application.CreatePanel(panelNameMEP, tabName);
             RibbonPanel anPanel = Application.CreatePanel(panelNameAnnotation, tabName);
             RibbonPanel bimPanel = Application.CreatePanel(panelNameBim, tabName);
             RibbonPanel infoPanel = Application.CreatePanel(panelNameInfo, tabName);
 
+            // Создаем SplitButton для панели Rooms
+            SplitButtonData splitButtonData = new SplitButtonData("RoomsSplitButton", "Операции с помещениями");
+            SplitButton roomsSplitButton = roomsPanel.AddItem(splitButtonData) as SplitButton;
 
+            // Добавляем кнопки в SplitButton
+            PushButtonData createNameSetButtonData = new PushButtonData(
+                "CreateNameSet",
+                "Создать имена помещений",
+                Assembly.GetExecutingAssembly().Location,
+                typeof(CreateNameSet).FullName)
+            {
+                Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
+                ToolTip = "Создаются неразмещенные помещения по списку"
+            };
 
-            infoPanel.AddPushButton<StartupCommand>("Ссылка на сайт")
-                .SetImage("/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")
-                .SetLargeImage("/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png");
+            PushButtonData delUnplacedCommandButtonData = new PushButtonData(
+                "DelUnplacedRoom",
+                "Удалить неразмещенные помещения",
+                Assembly.GetExecutingAssembly().Location,
+                typeof(DelUnplacedRoom).FullName)
+            {
+                Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
+                ToolTip = "Удалить неразмещенные помещения"
+            };
 
-            //roomsPanel.AddSeparator();
+            PushButtonData writyTypeRoomCommandButtonData = new PushButtonData(
+                "WriteTypeRooms",
+                "Прописать тип квартиры",
+                Assembly.GetExecutingAssembly().Location,
+                typeof(WriteTypeRooms).FullName)
+            {
+                Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
+                ToolTip = "Описание четвертой команды"
+            };
 
-            roomsPanel.AddPushButton<CreateNameSet>("Создать имена для помещений")
+            // Добавляем кнопки в SplitButton
+            roomsSplitButton.AddPushButton(createNameSetButtonData);
+            roomsSplitButton.AddPushButton(delUnplacedCommandButtonData);
+            roomsSplitButton.AddPushButton(writyTypeRoomCommandButtonData);
+
+            //сайт разработчика
+            infoPanel.AddPushButton<StartupCommand>("Сайт разработчика")
                 .SetImage("/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")
                 .SetLargeImage("/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")
-                .SetToolTip("Описание второй команды");
-
-            roomsPanel.AddPushButton<ThirdCommand>("Третья команда")
-                .SetImage("/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")
-                .SetLargeImage("/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")
-                .SetToolTip("Описание третьей команды");
-
-            roomsPanel.AddPushButton<FourthCommand>("Четвертая команда")
-                .SetImage("/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")
-                .SetLargeImage("/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")
-                .SetToolTip("Описание четвертой команды");
-
-            // Интегрируем кнопки из старого кода
-            //AddBIMv2Buttons();
+                .SetToolTip("Открыть сайт и написать разработчику");
         }
 
         //private void AddBIMv2Buttons()
