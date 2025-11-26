@@ -107,6 +107,16 @@ namespace RevitAddIn2BIMRU
             AddInfoPanel(ribbonPanelInfo, thisAssemblyPath);
         }
 
+        private void CreateRibbonTab(string tabNameB2)
+        {
+            throw new NotImplementedException();
+        }
+
+        private RibbonPanel CreatePanel(string tabNameB2, string panelNameRooms)
+        {
+            throw new NotImplementedException();
+        }
+
         private void AddRoomsPanel(RibbonPanel panel, string assemblyPath, BitmapImage TImage, BitmapImage NImage, BitmapImage binImage)
         {
             string buttonName3 = "Имена помещений";
