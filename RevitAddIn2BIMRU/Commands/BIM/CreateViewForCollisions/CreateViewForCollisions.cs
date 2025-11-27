@@ -6,10 +6,13 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Xml;
+using System.Drawing;
 
 using Button = System.Windows.Forms.Button;
 using Label = System.Windows.Forms.Label;
 #endregion
+
+
 
 namespace RevitAddIn2BIMRU.Commands.BIM
 {
@@ -264,9 +267,19 @@ namespace RevitAddIn2BIMRU.Commands.BIM
 
                     if (familySymbolId.HasValue)
                     {
+
+#if REVIT2021||REVIT2022||REVIT2023||REVIT2024 ||REVIT2025
                         // Сохраняем в базу: ElementId -> FamilySymbolId
                         _elementToSymbolMap[element.Id.IntegerValue] = familySymbolId.Value;
 
+
+
+
+                        // Сохраняем в базу: ElementId -> FamilySymbolId
+                        _elementToSymbolMap[element.Id.IntegerValue] = familySymbolId.Value;
+
+
+#endif
                         // Сохраняем в базу: FamilySymbolId -> List<Element>
                         if (!_symbolToElementsMap.ContainsKey(familySymbolId.Value))
                             _symbolToElementsMap[familySymbolId.Value] = new List<Element>();
@@ -314,7 +327,9 @@ namespace RevitAddIn2BIMRU.Commands.BIM
                         ElementId symbolId = FindSymbolIdByReflection(geometryInstance);
                         if (symbolId != null && symbolId != ElementId.InvalidElementId)
                         {
+#if REVIT2021 || REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025
                             return symbolId.IntegerValue;
+#endif
                         }
                     }
                 }
@@ -748,6 +763,8 @@ namespace RevitAddIn2BIMRU.Commands.BIM
                 .FirstOrDefault(f => f.GetFillPattern().IsSolidFill)?.Id
                 ?? ElementId.InvalidElementId;
         }
+
+
     }
 
     // Остальные классы форм остаются без изменений...

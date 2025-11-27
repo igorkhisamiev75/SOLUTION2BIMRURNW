@@ -1,10 +1,6 @@
 ﻿#region Namespaces
-
-using System;
-using System.Collections.Generic;
 using System.Windows;
 using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.DB.Architecture;
 
@@ -14,7 +10,7 @@ namespace RevitAddIn2BIMRU.Commands
 {
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
-    //[Journaling(JournalingMode.NoCommandData)]
+ 
     public class CreateNameSet : Window, IExternalCommand
     {
 

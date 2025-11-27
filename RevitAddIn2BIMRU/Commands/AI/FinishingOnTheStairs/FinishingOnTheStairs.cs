@@ -1,6 +1,4 @@
 ﻿using System.Windows;
-using System.Collections.Generic;
-using System.Linq;
 
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB.Architecture;

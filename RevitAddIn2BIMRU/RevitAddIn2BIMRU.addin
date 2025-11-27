@@ -5,8 +5,8 @@
         <AddInId>EEEB296F-6245-482D-BDD2-572F8C0434CA</AddInId>
         <FullClassName>RevitAddIn2BIMRU.Application</FullClassName>
         <VendorId>Development</VendorId>
-        <VendorDescription></VendorDescription>
-        <VendorEmail></VendorEmail>
+        <VendorDescription>2bim.ru</VendorDescription>
+        <VendorEmail>2bim.ru</VendorEmail>
     </AddIn>
     <ManifestSettings>
         <UseRevitContext>False</UseRevitContext>

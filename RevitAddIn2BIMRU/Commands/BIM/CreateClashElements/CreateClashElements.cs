@@ -1,6 +1,5 @@
 ﻿#region Namespace
 using System.Xml;
-
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.UI;
 using System.Xml.Linq;
