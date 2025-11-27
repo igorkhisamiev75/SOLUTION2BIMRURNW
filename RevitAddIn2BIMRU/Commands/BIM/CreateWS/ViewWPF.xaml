@@ -1,0 +1,40 @@
+﻿<Window x:Class="RevitAddIn2BIMRU.Commands.BIM.CreateWS.ViewWPF"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:local="clr-namespace:RevitAddIn2BIMRU.Commands.BIM.CreateWS"
+        mc:Ignorable="d" 
+        Title="Add Worksets"
+        Height="228.571" Width="500">
+    <Grid Margin="0,0,-5.714,12.429">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0.2*"/>
+        </Grid.ColumnDefinitions>
+        <Button Content="OK" 
+                HorizontalAlignment="Left" 
+                Margin="0,10,0,0" 
+                VerticalAlignment="Top" 
+                Width="75" Height="21" 
+                Grid.Column="1" Click="Button_Click"/>
+        <Button Content="CANCEL" 
+                HorizontalAlignment="Left" 
+                Margin="0,36,0,0" 
+                VerticalAlignment="Top" Width="75" 
+                Grid.Column="1" Height="21" Click="Button_Click_1"/>
+        <RichTextBox 
+                     Name="RichTextBox"
+                     HorizontalAlignment="Left" 
+                     Height="158" 
+                     Margin="10,10,0,0" 
+                     VerticalAlignment="Top" 
+                     Width="392">
+            <FlowDocument>
+                <Paragraph>
+                    <Run Text="00_Общие_уровни_и_оси 00_Рабочий_набор_1 01_Генплан 02_Архитектура 03_Конструкции 04_Электроснабжение 05.1_Водоснабжение 05.2_Канализация 06.1_Отопление 06.2_Вентиляция 06.3_Кондиционирование 92_Связь_AR 93_Связь_SC 94_Связь_MEP-HVAC 94_Связь_MEP-ESS 94_Связь_MEP-WSS"/>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+    </Grid>
+</Window>

@@ -50,6 +50,20 @@
         <IsRepackable>false</IsRepackable>
         <DeployRevitAddin>true</DeployRevitAddin>
     </PropertyGroup>
+    <ItemGroup>
+      <None Remove="Resources\Icons\coffee16.png" />
+      <None Remove="Resources\Icons\coffee32.png" />
+      <None Remove="Resources\Icons\del16.png" />
+      <None Remove="Resources\Icons\del32.png" />
+      <None Remove="Resources\Icons\lamp16.png" />
+      <None Remove="Resources\Icons\lamp32.png" />
+      <None Remove="Resources\Icons\sect16.png" />
+      <None Remove="Resources\Icons\sect32.png" />
+      <None Remove="Resources\Icons\sol16.png" />
+      <None Remove="Resources\Icons\sol32.png" />
+      <None Remove="Resources\Icons\ukaz16.png" />
+      <None Remove="Resources\Icons\ukaz32.png" />
+    </ItemGroup>
 
     <ItemGroup>
         <!-- Revit References -->
@@ -64,17 +78,32 @@
     </ItemGroup>
     
     <ItemGroup>
+        <Resource Include="Resources\Icons\coffee16.png" />
+        <Resource Include="Resources\Icons\coffee32.png" />
+        <Resource Include="Resources\Icons\del16.png" />
+        <Resource Include="Resources\Icons\del32.png" />
+        <Resource Include="Resources\Icons\lamp16.png" />
+        <Resource Include="Resources\Icons\lamp32.png" />
         <Resource Include="Resources\Icons\RibbonIcon16.png" />
         <Resource Include="Resources\Icons\RibbonIcon32.png" />
+        <Resource Include="Resources\Icons\sect16.png" />
+        <Resource Include="Resources\Icons\sect32.png" />
+        <Resource Include="Resources\Icons\sol16.png" />
+        <Resource Include="Resources\Icons\sol32.png" />
+        <Resource Include="Resources\Icons\ukaz16.png" />
+        <Resource Include="Resources\Icons\ukaz32.png" />
     </ItemGroup>
 
     <ItemGroup>
         <Folder Include="Commands\AR\" />
         <Folder Include="Commands\AI\" />
-        <Folder Include="Commands\AN\" />
-        <Folder Include="Commands\BIM\" />
-        <Folder Include="Commands\BIM\" />
+        <Folder Include="Commands\AI\" />
+        <Folder Include="Commands\AR\" />
         <Folder Include="Models" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="System.Windows.Forms" />
     </ItemGroup>
 
 </Project>
