@@ -4,6 +4,7 @@ using Nice3point.Revit.Toolkit.External;
 
 using RevitAddIn2BIMRU.Commands;
 using RevitAddIn2BIMRU.Commands.INFO;
+using RevitAddIn2BIMRU.Commands.MEP;
 
 using System.Reflection;
 using System.Windows.Media.Imaging;
@@ -77,13 +78,70 @@ namespace RevitAddIn2BIMRU
             {
                 Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
                 LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
-                ToolTip = "Описание четвертой команды"
+                ToolTip = "Прописать тип квартиры для шаблона Б2"
             };
 
             // Добавляем кнопки в SplitButton
             roomsSplitButton.AddPushButton(createNameSetButtonData);
             roomsSplitButton.AddPushButton(delUnplacedCommandButtonData);
             roomsSplitButton.AddPushButton(writyTypeRoomCommandButtonData);
+
+            //MEP настройки
+
+            // Создаем SplitButton для панели Rooms
+            SplitButtonData splitButtonDataMEP = new SplitButtonData("mepSplitButton", "Операции для МЕР");
+            SplitButton mepSplitButton = mepPanel.AddItem(splitButtonDataMEP) as SplitButton;
+
+            // Добавляем кнопки в SplitButton
+            PushButtonData mep1SetButtonData = new PushButtonData(
+                "SumAllLightingFixtureInRoom",
+                "Посчитать светильники",
+                Assembly.GetExecutingAssembly().Location,
+                typeof(SumAllLightingFixtureInRoom).FullName)
+            {
+                Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
+                ToolTip = "Подсчет количества светильников в помещении и запись в марку ADSK_Количество светильников"
+            };
+
+            PushButtonData mep2SetButtonData = new PushButtonData(
+                "NormalIlluminationForLightFix",
+                "Записать освещенность",
+                Assembly.GetExecutingAssembly().Location,
+                typeof(NormalIlluminationForLightFix).FullName)
+            {
+                Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
+                ToolTip = "Записать освещенность в пространства"
+            };
+
+            PushButtonData mep3SetButtonData = new PushButtonData(
+                "CreateLightingInRoom",
+                "Создание светильников в помещениях",
+                Assembly.GetExecutingAssembly().Location,
+                typeof(CreateLightingInRoom).FullName)
+            {
+                Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
+                ToolTip = "Создание светильников в помещениях"
+            };
+
+            PushButtonData mep4SetButtonData = new PushButtonData(
+               "CreatePipeSectionView",
+               "Разрер по элементу",
+               Assembly.GetExecutingAssembly().Location,
+               typeof(CreatePipeSectionView).FullName)
+            {
+                Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
+                ToolTip = "Построить разрез по лотку-трубе-воздуховоду"
+            };
+
+            // Добавляем кнопки в SplitButton
+            mepSplitButton.AddPushButton(mep1SetButtonData);
+            mepSplitButton.AddPushButton(mep2SetButtonData);
+            mepSplitButton.AddPushButton(mep3SetButtonData);
+            mepSplitButton.AddPushButton(mep4SetButtonData);
 
             //сайт разработчика
             infoPanel.AddPushButton<StartupCommand>("Сайт разработчика")

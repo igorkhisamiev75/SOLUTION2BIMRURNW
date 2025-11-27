@@ -71,8 +71,8 @@
     <ItemGroup>
         <Folder Include="Commands\AR\" />
         <Folder Include="Commands\AI\" />
-        <Folder Include="Commands\MEP\" />
         <Folder Include="Commands\AN\" />
+        <Folder Include="Commands\BIM\" />
         <Folder Include="Commands\BIM\" />
         <Folder Include="Models" />
     </ItemGroup>
