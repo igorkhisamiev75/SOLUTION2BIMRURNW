@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="db8323df-c4c6-44d0-b4ff-dda43b22df0e" Name="SOLUTION2BIMRURNW" Language="1033" Codepage="Windows-1252" Version="1.0.0" UpgradeCode="db8323df-c4c6-44d0-b4ff-dda42b22cf0e" Manufacturer="riks">
+  <Product Id="db8323df-c4c6-44d0-b4ff-dda43b22df0e" Name="SOLUTION2BIMRURNW" Language="1033" Codepage="Windows-1252" Version="1.0.0" UpgradeCode="db8323df-c4c6-44d0-b4ff-dda42b22cf0e" Manufacturer="comp44">
     <Package InstallerVersion="200" Compressed="yes" Platform="x64" SummaryCodepage="Windows-1252" InstallScope="perUser" Languages="1033" />
     <Media Id="1" Cabinet="SOLUTION2BIMRURNW.cab" EmbedCab="yes" />
 
@@ -603,6 +603,14 @@
                     </RegistryKey>
                   </Component>
 
+                  <Component Id="Component.System.Windows.Forms.dll_3122861359" Guid="db8323df-c4c6-44d0-b4ff-dda43071f188" Win64="yes">
+                    <File Id="System.Windows.Forms.dll_3122861359" Source="bin\Release R25\publish\Revit 2025 Release R25 addin\RevitAddIn2BIMRU\System.Windows.Forms.dll" />
+
+                    <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                      <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                    </RegistryKey>
+                  </Component>
+
                 </Directory>
               </Directory>
 
@@ -678,6 +686,14 @@
 
                   <Component Id="Component.RevitAddIn2BIMRU.runtimeconfig.json_2517451512" Guid="db8323df-c4c6-44d0-b4ff-dda4321d56a5" Win64="yes">
                     <File Id="RevitAddIn2BIMRU.runtimeconfig.json_2517451512" Source="bin\Release R26\publish\Revit 2026 Release R26 addin\RevitAddIn2BIMRU\RevitAddIn2BIMRU.runtimeconfig.json" />
+
+                    <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                      <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                    </RegistryKey>
+                  </Component>
+
+                  <Component Id="Component.System.Windows.Forms.dll_3614963114" Guid="db8323df-c4c6-44d0-b4ff-dda43fbcfe62" Win64="yes">
+                    <File Id="System.Windows.Forms.dll_3614963114" Source="bin\Release R26\publish\Revit 2026 Release R26 addin\RevitAddIn2BIMRU\System.Windows.Forms.dll" />
 
                     <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
                       <RegistryValue Value="0" Type="string" KeyPath="yes" />
@@ -832,6 +848,7 @@
         <ComponentRef Id="Component.RevitAddIn2BIMRU.deps.json_438270512" />
         <ComponentRef Id="Component.RevitAddIn2BIMRU.dll_2815790925" />
         <ComponentRef Id="Component.RevitAddIn2BIMRU.runtimeconfig.json_3594751874" />
+        <ComponentRef Id="Component.System.Windows.Forms.dll_3122861359" />
         <ComponentRef Id="INSTALLDIR" />
         <ComponentRef Id="Revit" />
         <ComponentRef Id="Autodesk" />
@@ -847,6 +864,7 @@
         <ComponentRef Id="Component.RevitAddIn2BIMRU.deps.json_2948116613" />
         <ComponentRef Id="Component.RevitAddIn2BIMRU.dll_1031385696" />
         <ComponentRef Id="Component.RevitAddIn2BIMRU.runtimeconfig.json_2517451512" />
+        <ComponentRef Id="Component.System.Windows.Forms.dll_3614963114" />
         <ComponentRef Id="INSTALLDIR" />
         <ComponentRef Id="Revit" />
         <ComponentRef Id="Autodesk" />
