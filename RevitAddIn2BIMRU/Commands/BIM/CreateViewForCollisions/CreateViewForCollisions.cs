@@ -1,5 +1,6 @@
 ﻿#region Namespace
 using Autodesk.Revit.Attributes;
+using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 
 using System.Diagnostics;
@@ -12,8 +13,6 @@ using Button = System.Windows.Forms.Button;
 using Label = System.Windows.Forms.Label;
 #endregion
 
-
-
 namespace RevitAddIn2BIMRU.Commands.BIM
 {
     [Transaction(TransactionMode.Manual)]
@@ -25,9 +24,9 @@ namespace RevitAddIn2BIMRU.Commands.BIM
         private List<View3D> _createdViews = new List<View3D>();
 
         // База данных: FamilySymbolId -> List<Element> (обобщенные модели с этим Symbol)
-        private Dictionary<int, List<Element>> _symbolToElementsMap = new Dictionary<int, List<Element>>();
+        private Dictionary<ElementId, List<Element>> _symbolToElementsMap = new Dictionary<ElementId, List<Element>>();
         // База данных: ElementId -> FamilySymbolId (для быстрого поиска)
-        private Dictionary<int, int> _elementToSymbolMap = new Dictionary<int, int>();
+        private Dictionary<ElementId, ElementId> _elementToSymbolMap = new Dictionary<ElementId, ElementId>();
 
         // Настройки цветов и прозрачности
         private System.Drawing.Color _collision1Color = System.Drawing.Color.Orange;
@@ -133,9 +132,9 @@ namespace RevitAddIn2BIMRU.Commands.BIM
                                     Debug.WriteLine($"Коллизия 2: {collision2Elements.Count} элементов");
 
                                     // Получаем ID для имени вида
-                                    List<int> collision1Ids, collision2Ids;
+                                    List<ElementId> collision1Ids, collision2Ids;
                                     GetCollisionIdsFromXml(clash, out collision1Ids, out collision2Ids);
-                                    List<int> allReportIds = collision1Ids.Concat(collision2Ids).ToList();
+                                    List<ElementId> allReportIds = collision1Ids.Concat(collision2Ids).ToList();
 
                                     if (CreateCollisionView(name, allCollisionElements, collision1Elements, collision2Elements, allReportIds, viewFamilyType, solidFillPatternId))
                                     {
@@ -263,30 +262,20 @@ namespace RevitAddIn2BIMRU.Commands.BIM
                 try
                 {
                     // Получаем FamilySymbolId из геометрии элемента
-                    int? familySymbolId = GetFamilySymbolIdFromGeometry(element);
+                    ElementId familySymbolId = GetFamilySymbolIdFromGeometry(element);
 
-                    if (familySymbolId.HasValue)
+                    if (familySymbolId != null && familySymbolId != ElementId.InvalidElementId)
                     {
-
-#if REVIT2021||REVIT2022||REVIT2023||REVIT2024 ||REVIT2025
                         // Сохраняем в базу: ElementId -> FamilySymbolId
-                        _elementToSymbolMap[element.Id.IntegerValue] = familySymbolId.Value;
+                        _elementToSymbolMap[element.Id] = familySymbolId;
 
-
-
-
-                        // Сохраняем в базу: ElementId -> FamilySymbolId
-                        _elementToSymbolMap[element.Id.IntegerValue] = familySymbolId.Value;
-
-
-#endif
                         // Сохраняем в базу: FamilySymbolId -> List<Element>
-                        if (!_symbolToElementsMap.ContainsKey(familySymbolId.Value))
-                            _symbolToElementsMap[familySymbolId.Value] = new List<Element>();
+                        if (!_symbolToElementsMap.ContainsKey(familySymbolId))
+                            _symbolToElementsMap[familySymbolId] = new List<Element>();
 
-                        _symbolToElementsMap[familySymbolId.Value].Add(element);
+                        _symbolToElementsMap[familySymbolId].Add(element);
 
-                        Debug.WriteLine($"{elementType} {element.Id} -> FamilySymbolId {familySymbolId.Value}");
+                        Debug.WriteLine($"{elementType} {element.Id} -> FamilySymbolId {familySymbolId}");
                     }
                     else
                     {
@@ -303,7 +292,7 @@ namespace RevitAddIn2BIMRU.Commands.BIM
         /// <summary>
         /// Получаем FamilySymbolId из геометрии элемента
         /// </summary>
-        private int? GetFamilySymbolIdFromGeometry(Element element)
+        private ElementId GetFamilySymbolIdFromGeometry(Element element)
         {
             try
             {
@@ -327,9 +316,7 @@ namespace RevitAddIn2BIMRU.Commands.BIM
                         ElementId symbolId = FindSymbolIdByReflection(geometryInstance);
                         if (symbolId != null && symbolId != ElementId.InvalidElementId)
                         {
-#if REVIT2021 || REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025
-                            return symbolId.IntegerValue;
-#endif
+                            return symbolId;
                         }
                     }
                 }
@@ -425,10 +412,10 @@ namespace RevitAddIn2BIMRU.Commands.BIM
         /// <summary>
         /// Получает ID элементов из XML с разделением на две коллизии
         /// </summary>
-        private void GetCollisionIdsFromXml(XmlNode clashNode, out List<int> collision1Ids, out List<int> collision2Ids)
+        private void GetCollisionIdsFromXml(XmlNode clashNode, out List<ElementId> collision1Ids, out List<ElementId> collision2Ids)
         {
-            collision1Ids = new List<int>();
-            collision2Ids = new List<int>();
+            collision1Ids = new List<ElementId>();
+            collision2Ids = new List<ElementId>();
 
             // Ищем элементы clashobject в XML
             var clashObjects = clashNode.SelectNodes(".//clashobject");
@@ -453,7 +440,7 @@ namespace RevitAddIn2BIMRU.Commands.BIM
         /// <summary>
         /// Парсит ID из clashobject узла
         /// </summary>
-        private void ParseClashObjectIds(XmlNode clashObjectNode, List<int> ids)
+        private void ParseClashObjectIds(XmlNode clashObjectNode, List<ElementId> ids)
         {
             if (clashObjectNode == null) return;
 
@@ -466,7 +453,7 @@ namespace RevitAddIn2BIMRU.Commands.BIM
                     string valueText = valueNode.InnerText.Trim();
                     if (int.TryParse(valueText, out int id) && id > 0)
                     {
-                        ids.Add(id);
+                        ids.Add(new ElementId(id));
                     }
                 }
             }
@@ -479,7 +466,7 @@ namespace RevitAddIn2BIMRU.Commands.BIM
                 {
                     if (int.TryParse(attr.Value, out int id) && id > 0)
                     {
-                        ids.Add(id);
+                        ids.Add(new ElementId(id));
                     }
                 }
             }
@@ -488,7 +475,7 @@ namespace RevitAddIn2BIMRU.Commands.BIM
         /// <summary>
         /// Альтернативные методы парсинга XML структуры
         /// </summary>
-        private void TryAlternativeXmlParsing(XmlNode clashNode, List<int> collision1Ids, List<int> collision2Ids)
+        private void TryAlternativeXmlParsing(XmlNode clashNode, List<ElementId> collision1Ids, List<ElementId> collision2Ids)
         {
             // Попробуем найти по различным XPath выражениям
             string[] possibleXPaths = {
@@ -522,9 +509,9 @@ namespace RevitAddIn2BIMRU.Commands.BIM
         /// <summary>
         /// Получает все ID из узла коллизии
         /// </summary>
-        private List<int> GetAllIdsFromClashNode(XmlNode clashNode)
+        private List<ElementId> GetAllIdsFromClashNode(XmlNode clashNode)
         {
-            List<int> ids = new List<int>();
+            List<ElementId> ids = new List<ElementId>();
             var valueNodes = clashNode.SelectNodes(".//value");
             if (valueNodes != null)
             {
@@ -532,7 +519,7 @@ namespace RevitAddIn2BIMRU.Commands.BIM
                 {
                     string valueText = valueNode.InnerText.Trim();
                     if (int.TryParse(valueText, out int id) && id > 0)
-                        ids.Add(id);
+                        ids.Add(new ElementId(id));
                 }
             }
             return ids;
@@ -544,7 +531,7 @@ namespace RevitAddIn2BIMRU.Commands.BIM
         private List<Element> FindElementsForCollision(XmlNode clashNode, out List<Element> collision1Elements, out List<Element> collision2Elements)
         {
             // Получаем ID с разделением из XML
-            List<int> collision1Ids, collision2Ids;
+            List<ElementId> collision1Ids, collision2Ids;
             GetCollisionIdsFromXml(clashNode, out collision1Ids, out collision2Ids);
 
             var allCollisionElements = new List<Element>();
@@ -554,7 +541,7 @@ namespace RevitAddIn2BIMRU.Commands.BIM
             Debug.WriteLine($"Поиск элементов: Коллизия1 IDs: {collision1Ids.Count}, Коллизия2 IDs: {collision2Ids.Count}");
 
             // Ищем элементы для первой коллизии
-            foreach (int reportId in collision1Ids)
+            foreach (ElementId reportId in collision1Ids)
             {
                 var elements = FindElementsById(reportId);
                 foreach (var element in elements)
@@ -568,7 +555,7 @@ namespace RevitAddIn2BIMRU.Commands.BIM
             }
 
             // Ищем элементы для второй коллизии
-            foreach (int reportId in collision2Ids)
+            foreach (ElementId reportId in collision2Ids)
             {
                 var elements = FindElementsById(reportId);
                 foreach (var element in elements)
@@ -589,7 +576,7 @@ namespace RevitAddIn2BIMRU.Commands.BIM
         /// <summary>
         /// Поиск элементов по ID (в базе данных или напрямую)
         /// </summary>
-        private List<Element> FindElementsById(int reportId)
+        private List<Element> FindElementsById(ElementId reportId)
         {
             var result = new List<Element>();
 
@@ -606,7 +593,7 @@ namespace RevitAddIn2BIMRU.Commands.BIM
             // Если не найден как FamilySymbolId, ищем напрямую как ElementId
             if (result.Count == 0)
             {
-                Element directElement = _doc.GetElement(new ElementId(reportId));
+                Element directElement = _doc.GetElement(reportId);
                 if (directElement != null)
                 {
                     result.Add(directElement);
@@ -625,7 +612,7 @@ namespace RevitAddIn2BIMRU.Commands.BIM
         /// <summary>
         /// Создание 3D вида для коллизии
         /// </summary>
-        private bool CreateCollisionView(string clashName, List<Element> allElements, List<Element> collision1Elements, List<Element> collision2Elements, List<int> reportIds, ViewFamilyType viewFamilyType, ElementId solidFillPatternId)
+        private bool CreateCollisionView(string clashName, List<Element> allElements, List<Element> collision1Elements, List<Element> collision2Elements, List<ElementId> reportIds, ViewFamilyType viewFamilyType, ElementId solidFillPatternId)
         {
             try
             {
@@ -676,7 +663,7 @@ namespace RevitAddIn2BIMRU.Commands.BIM
             collision1Ogs.SetProjectionLineWeight(5);
             collision1Ogs.SetSurfaceForegroundPatternId(solidFillPatternId);
             collision1Ogs.SetSurfaceForegroundPatternColor(new Autodesk.Revit.DB.Color(_collision1Color.R, _collision1Color.G, _collision1Color.B));
-            collision1Ogs.SetSurfaceTransparency(0);
+            collision1Ogs.SetSurfaceTransparency(_transparency);
 
             // Настройки для элементов второй коллизии
             OverrideGraphicSettings collision2Ogs = new OverrideGraphicSettings();
@@ -684,7 +671,7 @@ namespace RevitAddIn2BIMRU.Commands.BIM
             collision2Ogs.SetProjectionLineWeight(5);
             collision2Ogs.SetSurfaceForegroundPatternId(solidFillPatternId);
             collision2Ogs.SetSurfaceForegroundPatternColor(new Autodesk.Revit.DB.Color(_collision2Color.R, _collision2Color.G, _collision2Color.B));
-            collision2Ogs.SetSurfaceTransparency(0);
+            collision2Ogs.SetSurfaceTransparency(_transparency);
 
             // Настройки для остальных элементов (прозрачность)
             OverrideGraphicSettings transparentOgs = new OverrideGraphicSettings();
@@ -763,8 +750,6 @@ namespace RevitAddIn2BIMRU.Commands.BIM
                 .FirstOrDefault(f => f.GetFillPattern().IsSolidFill)?.Id
                 ?? ElementId.InvalidElementId;
         }
-
-
     }
 
     // Остальные классы форм остаются без изменений...
@@ -1087,4 +1072,3 @@ namespace RevitAddIn2BIMRU.Commands.BIM
         private Button buttonCancel;
     }
 }
-

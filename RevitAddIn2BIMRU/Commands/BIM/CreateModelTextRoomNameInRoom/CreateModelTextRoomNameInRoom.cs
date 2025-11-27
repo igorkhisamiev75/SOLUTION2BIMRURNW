@@ -377,7 +377,11 @@ namespace RevitAddIn2BIMRU.Commands.BIM
 
         public int GetId(ICollection<ElementId> newElement)
         {
+#if REVIT2021 || REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025
             return newElement.FirstOrDefault()?.IntegerValue ?? 0;
+#else
+            return (int)(newElement.FirstOrDefault()?.Value ?? 0);
+#endif
         }
 
         public IList<Element> GetRoomsOnCurrentProject(Document doc)

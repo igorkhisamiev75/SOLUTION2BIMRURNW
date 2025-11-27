@@ -1,0 +1,532 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="db8323df-c4c6-44d0-b4ff-dda43b22df0e" Name="SOLUTION2BIMRURNW" Language="1033" Codepage="Windows-1252" Version="1.0.0" UpgradeCode="db8323df-c4c6-44d0-b4ff-dda42b22cf0e" Manufacturer="riks">
+    <Package InstallerVersion="200" Compressed="yes" Platform="x64" SummaryCodepage="Windows-1252" InstallScope="perMachine" Languages="1033" />
+    <Media Id="1" Cabinet="SOLUTION2BIMRURNW.cab" EmbedCab="yes" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="CommonAppDataFolder" Name="CommonAppDataFolder">
+        <Directory Id="Autodesk" Name="Autodesk">
+          <Directory Id="Revit" Name="Revit">
+            <Directory Id="INSTALLDIR" Name="Addins">
+              <Directory Id="INSTALL2021" Name="2021">
+
+                <Component Id="Component.RevitAddIn2BIMRU.addin_1665668045" Guid="db8323df-c4c6-44d0-b4ff-dda474dd36c3" Win64="yes">
+                  <File Id="RevitAddIn2BIMRU.addin_1665668045" Source="bin\Release R21\publish\Revit 2021 Release R21 addin\RevitAddIn2BIMRU.addin" />
+                </Component>
+
+                <Directory Id="RevitAddIn2BIMRU" Name="RevitAddIn2BIMRU">
+
+                  <Component Id="Component.RevitAddIn2BIMRU" Guid="db8323df-c4c6-44d0-b4ff-dda468e39063" KeyPath="yes" Win64="yes">
+                    <CreateFolder />
+                    <RemoveFolder Id="RevitAddIn2BIMRU" On="uninstall" />
+                  </Component>
+
+                  <Component Id="Component.CommunityToolkit.Mvvm.dll_1966530411" Guid="db8323df-c4c6-44d0-b4ff-dda488bc37d3" Win64="yes">
+                    <File Id="CommunityToolkit.Mvvm.dll_1966530411" Source="bin\Release R21\publish\Revit 2021 Release R21 addin\RevitAddIn2BIMRU\CommunityToolkit.Mvvm.dll" />
+                  </Component>
+
+                  <Component Id="Component.JetBrains.Annotations.dll_2789257914" Guid="db8323df-c4c6-44d0-b4ff-dda4d281793e" Win64="yes">
+                    <File Id="JetBrains.Annotations.dll_2789257914" Source="bin\Release R21\publish\Revit 2021 Release R21 addin\RevitAddIn2BIMRU\JetBrains.Annotations.dll" />
+                  </Component>
+
+                  <Component Id="Component.Microsoft.Bcl.AsyncInterfaces.dll_3181939885" Guid="db8323df-c4c6-44d0-b4ff-dda467ec416e" Win64="yes">
+                    <File Id="Microsoft.Bcl.AsyncInterfaces.dll_3181939885" Source="bin\Release R21\publish\Revit 2021 Release R21 addin\RevitAddIn2BIMRU\Microsoft.Bcl.AsyncInterfaces.dll" />
+                  </Component>
+
+                  <Component Id="Component.Nice3point.Revit.Extensions.dll_2627495038" Guid="db8323df-c4c6-44d0-b4ff-dda4806d34a3" Win64="yes">
+                    <File Id="Nice3point.Revit.Extensions.dll_2627495038" Source="bin\Release R21\publish\Revit 2021 Release R21 addin\RevitAddIn2BIMRU\Nice3point.Revit.Extensions.dll" />
+                  </Component>
+
+                  <Component Id="Component.Nice3point.Revit.Toolkit.dll_2853205213" Guid="db8323df-c4c6-44d0-b4ff-dda4fc54f741" Win64="yes">
+                    <File Id="Nice3point.Revit.Toolkit.dll_2853205213" Source="bin\Release R21\publish\Revit 2021 Release R21 addin\RevitAddIn2BIMRU\Nice3point.Revit.Toolkit.dll" />
+                  </Component>
+
+                  <Component Id="Component.RevitAddIn2BIMRU.dll_4047150563" Guid="db8323df-c4c6-44d0-b4ff-dda4b705f18b" Win64="yes">
+                    <File Id="RevitAddIn2BIMRU.dll_4047150563" Source="bin\Release R21\publish\Revit 2021 Release R21 addin\RevitAddIn2BIMRU\RevitAddIn2BIMRU.dll" />
+                  </Component>
+
+                  <Component Id="Component.System.Buffers.dll_535852729" Guid="db8323df-c4c6-44d0-b4ff-dda44aa4cf27" Win64="yes">
+                    <File Id="System.Buffers.dll_535852729" Source="bin\Release R21\publish\Revit 2021 Release R21 addin\RevitAddIn2BIMRU\System.Buffers.dll" />
+                  </Component>
+
+                  <Component Id="Component.System.ComponentModel.Annotations.dll_2846200251" Guid="db8323df-c4c6-44d0-b4ff-dda4bf7b49a9" Win64="yes">
+                    <File Id="System.ComponentModel.Annotations.dll_2846200251" Source="bin\Release R21\publish\Revit 2021 Release R21 addin\RevitAddIn2BIMRU\System.ComponentModel.Annotations.dll" />
+                  </Component>
+
+                  <Component Id="Component.System.Drawing.Common.dll_4235474054" Guid="db8323df-c4c6-44d0-b4ff-dda4f3563ca9" Win64="yes">
+                    <File Id="System.Drawing.Common.dll_4235474054" Source="bin\Release R21\publish\Revit 2021 Release R21 addin\RevitAddIn2BIMRU\System.Drawing.Common.dll" />
+                  </Component>
+
+                  <Component Id="Component.System.Memory.dll_3189336307" Guid="db8323df-c4c6-44d0-b4ff-dda472b01e92" Win64="yes">
+                    <File Id="System.Memory.dll_3189336307" Source="bin\Release R21\publish\Revit 2021 Release R21 addin\RevitAddIn2BIMRU\System.Memory.dll" />
+                  </Component>
+
+                  <Component Id="Component.System.Numerics.Vectors.dll_3641205435" Guid="db8323df-c4c6-44d0-b4ff-dda4b65220be" Win64="yes">
+                    <File Id="System.Numerics.Vectors.dll_3641205435" Source="bin\Release R21\publish\Revit 2021 Release R21 addin\RevitAddIn2BIMRU\System.Numerics.Vectors.dll" />
+                  </Component>
+
+                  <Component Id="Component.System.Runtime.CompilerServices.Unsafe.dll_551031506" Guid="db8323df-c4c6-44d0-b4ff-dda4c38259f7" Win64="yes">
+                    <File Id="System.Runtime.CompilerServices.Unsafe.dll_551031506" Source="bin\Release R21\publish\Revit 2021 Release R21 addin\RevitAddIn2BIMRU\System.Runtime.CompilerServices.Unsafe.dll" />
+                  </Component>
+
+                  <Component Id="Component.System.Threading.Tasks.Extensions.dll_1298715040" Guid="db8323df-c4c6-44d0-b4ff-dda4b6f3ae71" Win64="yes">
+                    <File Id="System.Threading.Tasks.Extensions.dll_1298715040" Source="bin\Release R21\publish\Revit 2021 Release R21 addin\RevitAddIn2BIMRU\System.Threading.Tasks.Extensions.dll" />
+                  </Component>
+
+                </Directory>
+              </Directory>
+
+              <Directory Id="INSTALL2022" Name="2022">
+
+                <Component Id="Component.RevitAddIn2BIMRU.addin_978440584" Guid="db8323df-c4c6-44d0-b4ff-dda428ce9317" Win64="yes">
+                  <File Id="RevitAddIn2BIMRU.addin_978440584" Source="bin\Release R22\publish\Revit 2022 Release R22 addin\RevitAddIn2BIMRU.addin" />
+                </Component>
+
+                <Directory Id="RevitAddIn2BIMRU.1" Name="RevitAddIn2BIMRU">
+
+                  <Component Id="Component.RevitAddIn2BIMRU.1" Guid="db8323df-c4c6-44d0-b4ff-dda4e2c1a7d3" KeyPath="yes" Win64="yes">
+                    <CreateFolder />
+                    <RemoveFolder Id="RevitAddIn2BIMRU.1" On="uninstall" />
+                  </Component>
+
+                  <Component Id="Component.CommunityToolkit.Mvvm.dll_976595379" Guid="db8323df-c4c6-44d0-b4ff-dda44864e3ad" Win64="yes">
+                    <File Id="CommunityToolkit.Mvvm.dll_976595379" Source="bin\Release R22\publish\Revit 2022 Release R22 addin\RevitAddIn2BIMRU\CommunityToolkit.Mvvm.dll" />
+                  </Component>
+
+                  <Component Id="Component.JetBrains.Annotations.dll_2300669942" Guid="db8323df-c4c6-44d0-b4ff-dda44a4d591b" Win64="yes">
+                    <File Id="JetBrains.Annotations.dll_2300669942" Source="bin\Release R22\publish\Revit 2022 Release R22 addin\RevitAddIn2BIMRU\JetBrains.Annotations.dll" />
+                  </Component>
+
+                  <Component Id="Component.Microsoft.Bcl.AsyncInterfaces.dll_4284443675" Guid="db8323df-c4c6-44d0-b4ff-dda460f01f55" Win64="yes">
+                    <File Id="Microsoft.Bcl.AsyncInterfaces.dll_4284443675" Source="bin\Release R22\publish\Revit 2022 Release R22 addin\RevitAddIn2BIMRU\Microsoft.Bcl.AsyncInterfaces.dll" />
+                  </Component>
+
+                  <Component Id="Component.Nice3point.Revit.Extensions.dll_2473536476" Guid="db8323df-c4c6-44d0-b4ff-dda449e4c214" Win64="yes">
+                    <File Id="Nice3point.Revit.Extensions.dll_2473536476" Source="bin\Release R22\publish\Revit 2022 Release R22 addin\RevitAddIn2BIMRU\Nice3point.Revit.Extensions.dll" />
+                  </Component>
+
+                  <Component Id="Component.Nice3point.Revit.Toolkit.dll_2852209102" Guid="db8323df-c4c6-44d0-b4ff-dda489713d22" Win64="yes">
+                    <File Id="Nice3point.Revit.Toolkit.dll_2852209102" Source="bin\Release R22\publish\Revit 2022 Release R22 addin\RevitAddIn2BIMRU\Nice3point.Revit.Toolkit.dll" />
+                  </Component>
+
+                  <Component Id="Component.RevitAddIn2BIMRU.dll_1834385692" Guid="db8323df-c4c6-44d0-b4ff-dda464cab9cb" Win64="yes">
+                    <File Id="RevitAddIn2BIMRU.dll_1834385692" Source="bin\Release R22\publish\Revit 2022 Release R22 addin\RevitAddIn2BIMRU\RevitAddIn2BIMRU.dll" />
+                  </Component>
+
+                  <Component Id="Component.System.Buffers.dll_81202700" Guid="db8323df-c4c6-44d0-b4ff-dda462386b88" Win64="yes">
+                    <File Id="System.Buffers.dll_81202700" Source="bin\Release R22\publish\Revit 2022 Release R22 addin\RevitAddIn2BIMRU\System.Buffers.dll" />
+                  </Component>
+
+                  <Component Id="Component.System.ComponentModel.Annotations.dll_2447658320" Guid="db8323df-c4c6-44d0-b4ff-dda4ec2deee8" Win64="yes">
+                    <File Id="System.ComponentModel.Annotations.dll_2447658320" Source="bin\Release R22\publish\Revit 2022 Release R22 addin\RevitAddIn2BIMRU\System.ComponentModel.Annotations.dll" />
+                  </Component>
+
+                  <Component Id="Component.System.Drawing.Common.dll_1499265060" Guid="db8323df-c4c6-44d0-b4ff-dda4676271de" Win64="yes">
+                    <File Id="System.Drawing.Common.dll_1499265060" Source="bin\Release R22\publish\Revit 2022 Release R22 addin\RevitAddIn2BIMRU\System.Drawing.Common.dll" />
+                  </Component>
+
+                  <Component Id="Component.System.Memory.dll_1648361394" Guid="db8323df-c4c6-44d0-b4ff-dda40e9b6544" Win64="yes">
+                    <File Id="System.Memory.dll_1648361394" Source="bin\Release R22\publish\Revit 2022 Release R22 addin\RevitAddIn2BIMRU\System.Memory.dll" />
+                  </Component>
+
+                  <Component Id="Component.System.Numerics.Vectors.dll_3230690069" Guid="db8323df-c4c6-44d0-b4ff-dda4ff4ff985" Win64="yes">
+                    <File Id="System.Numerics.Vectors.dll_3230690069" Source="bin\Release R22\publish\Revit 2022 Release R22 addin\RevitAddIn2BIMRU\System.Numerics.Vectors.dll" />
+                  </Component>
+
+                  <Component Id="Component.System.Runtime.CompilerServices.Unsafe.dll_2928522214" Guid="db8323df-c4c6-44d0-b4ff-dda43c27f991" Win64="yes">
+                    <File Id="System.Runtime.CompilerServices.Unsafe.dll_2928522214" Source="bin\Release R22\publish\Revit 2022 Release R22 addin\RevitAddIn2BIMRU\System.Runtime.CompilerServices.Unsafe.dll" />
+                  </Component>
+
+                  <Component Id="Component.System.Threading.Tasks.Extensions.dll_1273781477" Guid="db8323df-c4c6-44d0-b4ff-dda42c741122" Win64="yes">
+                    <File Id="System.Threading.Tasks.Extensions.dll_1273781477" Source="bin\Release R22\publish\Revit 2022 Release R22 addin\RevitAddIn2BIMRU\System.Threading.Tasks.Extensions.dll" />
+                  </Component>
+
+                </Directory>
+              </Directory>
+
+              <Directory Id="INSTALL2023" Name="2023">
+
+                <Component Id="Component.RevitAddIn2BIMRU.addin_734169373" Guid="db8323df-c4c6-44d0-b4ff-dda4ebcda3d0" Win64="yes">
+                  <File Id="RevitAddIn2BIMRU.addin_734169373" Source="bin\Release R23\publish\Revit 2023 Release R23 addin\RevitAddIn2BIMRU.addin" />
+                </Component>
+
+                <Directory Id="RevitAddIn2BIMRU.2" Name="RevitAddIn2BIMRU">
+
+                  <Component Id="Component.RevitAddIn2BIMRU.2" Guid="db8323df-c4c6-44d0-b4ff-dda484f0a7d3" KeyPath="yes" Win64="yes">
+                    <CreateFolder />
+                    <RemoveFolder Id="RevitAddIn2BIMRU.2" On="uninstall" />
+                  </Component>
+
+                  <Component Id="Component.CommunityToolkit.Mvvm.dll_3200766006" Guid="db8323df-c4c6-44d0-b4ff-dda461ee5654" Win64="yes">
+                    <File Id="CommunityToolkit.Mvvm.dll_3200766006" Source="bin\Release R23\publish\Revit 2023 Release R23 addin\RevitAddIn2BIMRU\CommunityToolkit.Mvvm.dll" />
+                  </Component>
+
+                  <Component Id="Component.JetBrains.Annotations.dll_2606028652" Guid="db8323df-c4c6-44d0-b4ff-dda42c0accf9" Win64="yes">
+                    <File Id="JetBrains.Annotations.dll_2606028652" Source="bin\Release R23\publish\Revit 2023 Release R23 addin\RevitAddIn2BIMRU\JetBrains.Annotations.dll" />
+                  </Component>
+
+                  <Component Id="Component.Microsoft.Bcl.AsyncInterfaces.dll_426580795" Guid="db8323df-c4c6-44d0-b4ff-dda46c76bd3d" Win64="yes">
+                    <File Id="Microsoft.Bcl.AsyncInterfaces.dll_426580795" Source="bin\Release R23\publish\Revit 2023 Release R23 addin\RevitAddIn2BIMRU\Microsoft.Bcl.AsyncInterfaces.dll" />
+                  </Component>
+
+                  <Component Id="Component.Nice3point.Revit.Extensions.dll_2827298316" Guid="db8323df-c4c6-44d0-b4ff-dda474f14db8" Win64="yes">
+                    <File Id="Nice3point.Revit.Extensions.dll_2827298316" Source="bin\Release R23\publish\Revit 2023 Release R23 addin\RevitAddIn2BIMRU\Nice3point.Revit.Extensions.dll" />
+                  </Component>
+
+                  <Component Id="Component.Nice3point.Revit.Toolkit.dll_4119060308" Guid="db8323df-c4c6-44d0-b4ff-dda461dad94c" Win64="yes">
+                    <File Id="Nice3point.Revit.Toolkit.dll_4119060308" Source="bin\Release R23\publish\Revit 2023 Release R23 addin\RevitAddIn2BIMRU\Nice3point.Revit.Toolkit.dll" />
+                  </Component>
+
+                  <Component Id="Component.RevitAddIn2BIMRU.dll_3891432805" Guid="db8323df-c4c6-44d0-b4ff-dda40e4bc089" Win64="yes">
+                    <File Id="RevitAddIn2BIMRU.dll_3891432805" Source="bin\Release R23\publish\Revit 2023 Release R23 addin\RevitAddIn2BIMRU\RevitAddIn2BIMRU.dll" />
+                  </Component>
+
+                  <Component Id="Component.System.Buffers.dll_1085118630" Guid="db8323df-c4c6-44d0-b4ff-dda405bb3a8e" Win64="yes">
+                    <File Id="System.Buffers.dll_1085118630" Source="bin\Release R23\publish\Revit 2023 Release R23 addin\RevitAddIn2BIMRU\System.Buffers.dll" />
+                  </Component>
+
+                  <Component Id="Component.System.ComponentModel.Annotations.dll_2462171206" Guid="db8323df-c4c6-44d0-b4ff-dda4245cadf2" Win64="yes">
+                    <File Id="System.ComponentModel.Annotations.dll_2462171206" Source="bin\Release R23\publish\Revit 2023 Release R23 addin\RevitAddIn2BIMRU\System.ComponentModel.Annotations.dll" />
+                  </Component>
+
+                  <Component Id="Component.System.Drawing.Common.dll_3782703967" Guid="db8323df-c4c6-44d0-b4ff-dda4edf23a8a" Win64="yes">
+                    <File Id="System.Drawing.Common.dll_3782703967" Source="bin\Release R23\publish\Revit 2023 Release R23 addin\RevitAddIn2BIMRU\System.Drawing.Common.dll" />
+                  </Component>
+
+                  <Component Id="Component.System.Memory.dll_3851291374" Guid="db8323df-c4c6-44d0-b4ff-dda4f06f3810" Win64="yes">
+                    <File Id="System.Memory.dll_3851291374" Source="bin\Release R23\publish\Revit 2023 Release R23 addin\RevitAddIn2BIMRU\System.Memory.dll" />
+                  </Component>
+
+                  <Component Id="Component.System.Numerics.Vectors.dll_3116354897" Guid="db8323df-c4c6-44d0-b4ff-dda4efe6f3f5" Win64="yes">
+                    <File Id="System.Numerics.Vectors.dll_3116354897" Source="bin\Release R23\publish\Revit 2023 Release R23 addin\RevitAddIn2BIMRU\System.Numerics.Vectors.dll" />
+                  </Component>
+
+                  <Component Id="Component.System.Runtime.CompilerServices.Unsafe.dll_3690422404" Guid="db8323df-c4c6-44d0-b4ff-dda4d8f166c7" Win64="yes">
+                    <File Id="System.Runtime.CompilerServices.Unsafe.dll_3690422404" Source="bin\Release R23\publish\Revit 2023 Release R23 addin\RevitAddIn2BIMRU\System.Runtime.CompilerServices.Unsafe.dll" />
+                  </Component>
+
+                  <Component Id="Component.System.Threading.Tasks.Extensions.dll_2462585601" Guid="db8323df-c4c6-44d0-b4ff-dda40db5ff0d" Win64="yes">
+                    <File Id="System.Threading.Tasks.Extensions.dll_2462585601" Source="bin\Release R23\publish\Revit 2023 Release R23 addin\RevitAddIn2BIMRU\System.Threading.Tasks.Extensions.dll" />
+                  </Component>
+
+                </Directory>
+              </Directory>
+
+              <Directory Id="INSTALL2024" Name="2024">
+
+                <Component Id="Component.RevitAddIn2BIMRU.addin_2335578045" Guid="db8323df-c4c6-44d0-b4ff-dda441a42567" Win64="yes">
+                  <File Id="RevitAddIn2BIMRU.addin_2335578045" Source="bin\Release R24\publish\Revit 2024 Release R24 addin\RevitAddIn2BIMRU.addin" />
+                </Component>
+
+                <Directory Id="RevitAddIn2BIMRU.3" Name="RevitAddIn2BIMRU">
+
+                  <Component Id="Component.RevitAddIn2BIMRU.3" Guid="db8323df-c4c6-44d0-b4ff-dda4f98ba7d3" KeyPath="yes" Win64="yes">
+                    <CreateFolder />
+                    <RemoveFolder Id="RevitAddIn2BIMRU.3" On="uninstall" />
+                  </Component>
+
+                  <Component Id="Component.CommunityToolkit.Mvvm.dll_2894988187" Guid="db8323df-c4c6-44d0-b4ff-dda4f2a182bc" Win64="yes">
+                    <File Id="CommunityToolkit.Mvvm.dll_2894988187" Source="bin\Release R24\publish\Revit 2024 Release R24 addin\RevitAddIn2BIMRU\CommunityToolkit.Mvvm.dll" />
+                  </Component>
+
+                  <Component Id="Component.JetBrains.Annotations.dll_4139341002" Guid="db8323df-c4c6-44d0-b4ff-dda47dfbeba3" Win64="yes">
+                    <File Id="JetBrains.Annotations.dll_4139341002" Source="bin\Release R24\publish\Revit 2024 Release R24 addin\RevitAddIn2BIMRU\JetBrains.Annotations.dll" />
+                  </Component>
+
+                  <Component Id="Component.Microsoft.Bcl.AsyncInterfaces.dll_4077815789" Guid="db8323df-c4c6-44d0-b4ff-dda4e0001997" Win64="yes">
+                    <File Id="Microsoft.Bcl.AsyncInterfaces.dll_4077815789" Source="bin\Release R24\publish\Revit 2024 Release R24 addin\RevitAddIn2BIMRU\Microsoft.Bcl.AsyncInterfaces.dll" />
+                  </Component>
+
+                  <Component Id="Component.Nice3point.Revit.Extensions.dll_1738474300" Guid="db8323df-c4c6-44d0-b4ff-dda4ded78979" Win64="yes">
+                    <File Id="Nice3point.Revit.Extensions.dll_1738474300" Source="bin\Release R24\publish\Revit 2024 Release R24 addin\RevitAddIn2BIMRU\Nice3point.Revit.Extensions.dll" />
+                  </Component>
+
+                  <Component Id="Component.Nice3point.Revit.Toolkit.dll_1546112806" Guid="db8323df-c4c6-44d0-b4ff-dda421fb1c0f" Win64="yes">
+                    <File Id="Nice3point.Revit.Toolkit.dll_1546112806" Source="bin\Release R24\publish\Revit 2024 Release R24 addin\RevitAddIn2BIMRU\Nice3point.Revit.Toolkit.dll" />
+                  </Component>
+
+                  <Component Id="Component.RevitAddIn2BIMRU.dll_285554492" Guid="db8323df-c4c6-44d0-b4ff-dda44f3ac0b1" Win64="yes">
+                    <File Id="RevitAddIn2BIMRU.dll_285554492" Source="bin\Release R24\publish\Revit 2024 Release R24 addin\RevitAddIn2BIMRU\RevitAddIn2BIMRU.dll" />
+                  </Component>
+
+                  <Component Id="Component.System.Buffers.dll_3379997257" Guid="db8323df-c4c6-44d0-b4ff-dda4d3a48ee9" Win64="yes">
+                    <File Id="System.Buffers.dll_3379997257" Source="bin\Release R24\publish\Revit 2024 Release R24 addin\RevitAddIn2BIMRU\System.Buffers.dll" />
+                  </Component>
+
+                  <Component Id="Component.System.ComponentModel.Annotations.dll_4080184425" Guid="db8323df-c4c6-44d0-b4ff-dda4fafd7d49" Win64="yes">
+                    <File Id="System.ComponentModel.Annotations.dll_4080184425" Source="bin\Release R24\publish\Revit 2024 Release R24 addin\RevitAddIn2BIMRU\System.ComponentModel.Annotations.dll" />
+                  </Component>
+
+                  <Component Id="Component.System.Drawing.Common.dll_2881823355" Guid="db8323df-c4c6-44d0-b4ff-dda4afd836d4" Win64="yes">
+                    <File Id="System.Drawing.Common.dll_2881823355" Source="bin\Release R24\publish\Revit 2024 Release R24 addin\RevitAddIn2BIMRU\System.Drawing.Common.dll" />
+                  </Component>
+
+                  <Component Id="Component.System.Memory.dll_885890055" Guid="db8323df-c4c6-44d0-b4ff-dda4592dd815" Win64="yes">
+                    <File Id="System.Memory.dll_885890055" Source="bin\Release R24\publish\Revit 2024 Release R24 addin\RevitAddIn2BIMRU\System.Memory.dll" />
+                  </Component>
+
+                  <Component Id="Component.System.Numerics.Vectors.dll_1708901638" Guid="db8323df-c4c6-44d0-b4ff-dda415eb8a77" Win64="yes">
+                    <File Id="System.Numerics.Vectors.dll_1708901638" Source="bin\Release R24\publish\Revit 2024 Release R24 addin\RevitAddIn2BIMRU\System.Numerics.Vectors.dll" />
+                  </Component>
+
+                  <Component Id="Component.System.Runtime.CompilerServices.Unsafe.dll_1475042760" Guid="db8323df-c4c6-44d0-b4ff-dda4939f1b63" Win64="yes">
+                    <File Id="System.Runtime.CompilerServices.Unsafe.dll_1475042760" Source="bin\Release R24\publish\Revit 2024 Release R24 addin\RevitAddIn2BIMRU\System.Runtime.CompilerServices.Unsafe.dll" />
+                  </Component>
+
+                  <Component Id="Component.System.Threading.Tasks.Extensions.dll_186746824" Guid="db8323df-c4c6-44d0-b4ff-dda4e4cd4940" Win64="yes">
+                    <File Id="System.Threading.Tasks.Extensions.dll_186746824" Source="bin\Release R24\publish\Revit 2024 Release R24 addin\RevitAddIn2BIMRU\System.Threading.Tasks.Extensions.dll" />
+                  </Component>
+
+                </Directory>
+              </Directory>
+
+              <Directory Id="INSTALL2025" Name="2025">
+
+                <Component Id="Component.RevitAddIn2BIMRU.addin_3250509770" Guid="db8323df-c4c6-44d0-b4ff-dda4db3e90e0" Win64="yes">
+                  <File Id="RevitAddIn2BIMRU.addin_3250509770" Source="bin\Release R25\publish\Revit 2025 Release R25 addin\RevitAddIn2BIMRU.addin" />
+                </Component>
+
+                <Directory Id="RevitAddIn2BIMRU.4" Name="RevitAddIn2BIMRU">
+
+                  <Component Id="Component.RevitAddIn2BIMRU.4" Guid="db8323df-c4c6-44d0-b4ff-dda49bbaa7d3" KeyPath="yes" Win64="yes">
+                    <CreateFolder />
+                    <RemoveFolder Id="RevitAddIn2BIMRU.4" On="uninstall" />
+                  </Component>
+
+                  <Component Id="Component.CommunityToolkit.Mvvm.dll_3004271474" Guid="db8323df-c4c6-44d0-b4ff-dda404c5b385" Win64="yes">
+                    <File Id="CommunityToolkit.Mvvm.dll_3004271474" Source="bin\Release R25\publish\Revit 2025 Release R25 addin\RevitAddIn2BIMRU\CommunityToolkit.Mvvm.dll" />
+                  </Component>
+
+                  <Component Id="Component.JetBrains.Annotations.dll_260837342" Guid="db8323df-c4c6-44d0-b4ff-dda4cc89e6ca" Win64="yes">
+                    <File Id="JetBrains.Annotations.dll_260837342" Source="bin\Release R25\publish\Revit 2025 Release R25 addin\RevitAddIn2BIMRU\JetBrains.Annotations.dll" />
+                  </Component>
+
+                  <Component Id="Component.Nice3point.Revit.Extensions.dll_3009699674" Guid="db8323df-c4c6-44d0-b4ff-dda44299e624" Win64="yes">
+                    <File Id="Nice3point.Revit.Extensions.dll_3009699674" Source="bin\Release R25\publish\Revit 2025 Release R25 addin\RevitAddIn2BIMRU\Nice3point.Revit.Extensions.dll" />
+                  </Component>
+
+                  <Component Id="Component.Nice3point.Revit.Toolkit.dll_2932399743" Guid="db8323df-c4c6-44d0-b4ff-dda41ddd61b9" Win64="yes">
+                    <File Id="Nice3point.Revit.Toolkit.dll_2932399743" Source="bin\Release R25\publish\Revit 2025 Release R25 addin\RevitAddIn2BIMRU\Nice3point.Revit.Toolkit.dll" />
+                  </Component>
+
+                  <Component Id="Component.RevitAddIn2BIMRU.deps.json_438270512" Guid="db8323df-c4c6-44d0-b4ff-dda4e22d8079" Win64="yes">
+                    <File Id="RevitAddIn2BIMRU.deps.json_438270512" Source="bin\Release R25\publish\Revit 2025 Release R25 addin\RevitAddIn2BIMRU\RevitAddIn2BIMRU.deps.json" />
+                  </Component>
+
+                  <Component Id="Component.RevitAddIn2BIMRU.dll_2815790925" Guid="db8323df-c4c6-44d0-b4ff-dda448ae6aa7" Win64="yes">
+                    <File Id="RevitAddIn2BIMRU.dll_2815790925" Source="bin\Release R25\publish\Revit 2025 Release R25 addin\RevitAddIn2BIMRU\RevitAddIn2BIMRU.dll" />
+                  </Component>
+
+                  <Component Id="Component.RevitAddIn2BIMRU.runtimeconfig.json_3594751874" Guid="db8323df-c4c6-44d0-b4ff-dda40ed874f3" Win64="yes">
+                    <File Id="RevitAddIn2BIMRU.runtimeconfig.json_3594751874" Source="bin\Release R25\publish\Revit 2025 Release R25 addin\RevitAddIn2BIMRU\RevitAddIn2BIMRU.runtimeconfig.json" />
+                  </Component>
+
+                </Directory>
+              </Directory>
+
+              <Directory Id="INSTALL2026" Name="2026">
+
+                <Component Id="Component.RevitAddIn2BIMRU.addin_4172745715" Guid="db8323df-c4c6-44d0-b4ff-dda42c38f1f6" Win64="yes">
+                  <File Id="RevitAddIn2BIMRU.addin_4172745715" Source="bin\Release R26\publish\Revit 2026 Release R26 addin\RevitAddIn2BIMRU.addin" />
+                </Component>
+
+                <Directory Id="RevitAddIn2BIMRU.5" Name="RevitAddIn2BIMRU">
+
+                  <Component Id="Component.RevitAddIn2BIMRU.5" Guid="db8323df-c4c6-44d0-b4ff-dda41055a7d3" KeyPath="yes" Win64="yes">
+                    <CreateFolder />
+                    <RemoveFolder Id="RevitAddIn2BIMRU.5" On="uninstall" />
+                  </Component>
+
+                  <Component Id="Component.CommunityToolkit.Mvvm.dll_3271969488" Guid="db8323df-c4c6-44d0-b4ff-dda41268e7a0" Win64="yes">
+                    <File Id="CommunityToolkit.Mvvm.dll_3271969488" Source="bin\Release R26\publish\Revit 2026 Release R26 addin\RevitAddIn2BIMRU\CommunityToolkit.Mvvm.dll" />
+                  </Component>
+
+                  <Component Id="Component.JetBrains.Annotations.dll_3016910307" Guid="db8323df-c4c6-44d0-b4ff-dda42656a3ff" Win64="yes">
+                    <File Id="JetBrains.Annotations.dll_3016910307" Source="bin\Release R26\publish\Revit 2026 Release R26 addin\RevitAddIn2BIMRU\JetBrains.Annotations.dll" />
+                  </Component>
+
+                  <Component Id="Component.Nice3point.Revit.Extensions.dll_960312051" Guid="db8323df-c4c6-44d0-b4ff-dda46a565000" Win64="yes">
+                    <File Id="Nice3point.Revit.Extensions.dll_960312051" Source="bin\Release R26\publish\Revit 2026 Release R26 addin\RevitAddIn2BIMRU\Nice3point.Revit.Extensions.dll" />
+                  </Component>
+
+                  <Component Id="Component.Nice3point.Revit.Toolkit.dll_3277355152" Guid="db8323df-c4c6-44d0-b4ff-dda4136c5f00" Win64="yes">
+                    <File Id="Nice3point.Revit.Toolkit.dll_3277355152" Source="bin\Release R26\publish\Revit 2026 Release R26 addin\RevitAddIn2BIMRU\Nice3point.Revit.Toolkit.dll" />
+                  </Component>
+
+                  <Component Id="Component.RevitAddIn2BIMRU.deps.json_2948116613" Guid="db8323df-c4c6-44d0-b4ff-dda4659ee5df" Win64="yes">
+                    <File Id="RevitAddIn2BIMRU.deps.json_2948116613" Source="bin\Release R26\publish\Revit 2026 Release R26 addin\RevitAddIn2BIMRU\RevitAddIn2BIMRU.deps.json" />
+                  </Component>
+
+                  <Component Id="Component.RevitAddIn2BIMRU.dll_1031385696" Guid="db8323df-c4c6-44d0-b4ff-dda4e9673f86" Win64="yes">
+                    <File Id="RevitAddIn2BIMRU.dll_1031385696" Source="bin\Release R26\publish\Revit 2026 Release R26 addin\RevitAddIn2BIMRU\RevitAddIn2BIMRU.dll" />
+                  </Component>
+
+                  <Component Id="Component.RevitAddIn2BIMRU.runtimeconfig.json_2517451512" Guid="db8323df-c4c6-44d0-b4ff-dda4421d66a5" Win64="yes">
+                    <File Id="RevitAddIn2BIMRU.runtimeconfig.json_2517451512" Source="bin\Release R26\publish\Revit 2026 Release R26 addin\RevitAddIn2BIMRU\RevitAddIn2BIMRU.runtimeconfig.json" />
+                  </Component>
+
+                </Directory>
+              </Directory>
+
+              <Component Id="INSTALLDIR" Guid="db8323df-c4c6-44d0-b4ff-dda4e63f44e6" KeyPath="yes" Win64="yes">
+                <RemoveFolder Id="INSTALLDIR" On="uninstall" />
+              </Component>
+
+            </Directory>
+
+            <Component Id="Revit" Guid="db8323df-c4c6-44d0-b4ff-dda40d598a82" KeyPath="yes" Win64="yes">
+              <RemoveFolder Id="Revit" On="uninstall" />
+            </Component>
+
+          </Directory>
+
+          <Component Id="Autodesk" Guid="db8323df-c4c6-44d0-b4ff-dda4a28f8388" KeyPath="yes" Win64="yes">
+            <RemoveFolder Id="Autodesk" On="uninstall" />
+          </Component>
+
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <Icon Id="app_icon.ico" SourceFile="install\Resources\Icons\ShellIcon.ico" />
+
+    <WixVariable Id="WixUIBannerBmp" Value="install\Resources\Icons\BannerImage.png" />
+    <WixVariable Id="WixUIDialogBmp" Value="install\Resources\Icons\BackgroundImage.png" />
+
+    <MajorUpgrade DowngradeErrorMessage="A later version of [ProductName] is already installed. Setup will now exit." Schedule="afterInstallInitialize" />
+
+    <UI>
+      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="CustomizeDlg" Order="5">1</Publish>
+      <Publish Dialog="CustomizeDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="5">1</Publish>
+    </UI>
+
+    <UIRef Id="WixUI_FeatureTree" />
+    <UIRef Id="WixUI_ErrorProgressText" />
+
+    <Property Id="ARPPRODUCTICON" Value="app_icon.ico" />
+    <Property Id="REINSTALLMODE" Value="omus" />
+
+    <Feature Id="Revit20Add2din" Title="Revit Add-in" Absent="allow" Level="1" Description="Revit add-in installation files" Display="expand">
+      <Feature Id="_2021_" Title="2021" Absent="allow" Level="1" Description="Install add-in for Revit 2021" ConfigurableDirectory="INSTALL2021">
+        <ComponentRef Id="Component.RevitAddIn2BIMRU.addin_1665668045" />
+        <ComponentRef Id="Component.RevitAddIn2BIMRU" />
+        <ComponentRef Id="Component.CommunityToolkit.Mvvm.dll_1966530411" />
+        <ComponentRef Id="Component.JetBrains.Annotations.dll_2789257914" />
+        <ComponentRef Id="Component.Microsoft.Bcl.AsyncInterfaces.dll_3181939885" />
+        <ComponentRef Id="Component.Nice3point.Revit.Extensions.dll_2627495038" />
+        <ComponentRef Id="Component.Nice3point.Revit.Toolkit.dll_2853205213" />
+        <ComponentRef Id="Component.RevitAddIn2BIMRU.dll_4047150563" />
+        <ComponentRef Id="Component.System.Buffers.dll_535852729" />
+        <ComponentRef Id="Component.System.ComponentModel.Annotations.dll_2846200251" />
+        <ComponentRef Id="Component.System.Drawing.Common.dll_4235474054" />
+        <ComponentRef Id="Component.System.Memory.dll_3189336307" />
+        <ComponentRef Id="Component.System.Numerics.Vectors.dll_3641205435" />
+        <ComponentRef Id="Component.System.Runtime.CompilerServices.Unsafe.dll_551031506" />
+        <ComponentRef Id="Component.System.Threading.Tasks.Extensions.dll_1298715040" />
+        <ComponentRef Id="INSTALLDIR" />
+        <ComponentRef Id="Revit" />
+        <ComponentRef Id="Autodesk" />
+      </Feature>
+
+      <Feature Id="_2022_" Title="2022" Absent="allow" Level="1" Description="Install add-in for Revit 2022" ConfigurableDirectory="INSTALL2022">
+        <ComponentRef Id="Component.RevitAddIn2BIMRU.addin_978440584" />
+        <ComponentRef Id="Component.RevitAddIn2BIMRU.1" />
+        <ComponentRef Id="Component.CommunityToolkit.Mvvm.dll_976595379" />
+        <ComponentRef Id="Component.JetBrains.Annotations.dll_2300669942" />
+        <ComponentRef Id="Component.Microsoft.Bcl.AsyncInterfaces.dll_4284443675" />
+        <ComponentRef Id="Component.Nice3point.Revit.Extensions.dll_2473536476" />
+        <ComponentRef Id="Component.Nice3point.Revit.Toolkit.dll_2852209102" />
+        <ComponentRef Id="Component.RevitAddIn2BIMRU.dll_1834385692" />
+        <ComponentRef Id="Component.System.Buffers.dll_81202700" />
+        <ComponentRef Id="Component.System.ComponentModel.Annotations.dll_2447658320" />
+        <ComponentRef Id="Component.System.Drawing.Common.dll_1499265060" />
+        <ComponentRef Id="Component.System.Memory.dll_1648361394" />
+        <ComponentRef Id="Component.System.Numerics.Vectors.dll_3230690069" />
+        <ComponentRef Id="Component.System.Runtime.CompilerServices.Unsafe.dll_2928522214" />
+        <ComponentRef Id="Component.System.Threading.Tasks.Extensions.dll_1273781477" />
+        <ComponentRef Id="INSTALLDIR" />
+        <ComponentRef Id="Revit" />
+        <ComponentRef Id="Autodesk" />
+      </Feature>
+
+      <Feature Id="_2023_" Title="2023" Absent="allow" Level="1" Description="Install add-in for Revit 2023" ConfigurableDirectory="INSTALL2023">
+        <ComponentRef Id="Component.RevitAddIn2BIMRU.addin_734169373" />
+        <ComponentRef Id="Component.RevitAddIn2BIMRU.2" />
+        <ComponentRef Id="Component.CommunityToolkit.Mvvm.dll_3200766006" />
+        <ComponentRef Id="Component.JetBrains.Annotations.dll_2606028652" />
+        <ComponentRef Id="Component.Microsoft.Bcl.AsyncInterfaces.dll_426580795" />
+        <ComponentRef Id="Component.Nice3point.Revit.Extensions.dll_2827298316" />
+        <ComponentRef Id="Component.Nice3point.Revit.Toolkit.dll_4119060308" />
+        <ComponentRef Id="Component.RevitAddIn2BIMRU.dll_3891432805" />
+        <ComponentRef Id="Component.System.Buffers.dll_1085118630" />
+        <ComponentRef Id="Component.System.ComponentModel.Annotations.dll_2462171206" />
+        <ComponentRef Id="Component.System.Drawing.Common.dll_3782703967" />
+        <ComponentRef Id="Component.System.Memory.dll_3851291374" />
+        <ComponentRef Id="Component.System.Numerics.Vectors.dll_3116354897" />
+        <ComponentRef Id="Component.System.Runtime.CompilerServices.Unsafe.dll_3690422404" />
+        <ComponentRef Id="Component.System.Threading.Tasks.Extensions.dll_2462585601" />
+        <ComponentRef Id="INSTALLDIR" />
+        <ComponentRef Id="Revit" />
+        <ComponentRef Id="Autodesk" />
+      </Feature>
+
+      <Feature Id="_2024_" Title="2024" Absent="allow" Level="1" Description="Install add-in for Revit 2024" ConfigurableDirectory="INSTALL2024">
+        <ComponentRef Id="Component.RevitAddIn2BIMRU.addin_2335578045" />
+        <ComponentRef Id="Component.RevitAddIn2BIMRU.3" />
+        <ComponentRef Id="Component.CommunityToolkit.Mvvm.dll_2894988187" />
+        <ComponentRef Id="Component.JetBrains.Annotations.dll_4139341002" />
+        <ComponentRef Id="Component.Microsoft.Bcl.AsyncInterfaces.dll_4077815789" />
+        <ComponentRef Id="Component.Nice3point.Revit.Extensions.dll_1738474300" />
+        <ComponentRef Id="Component.Nice3point.Revit.Toolkit.dll_1546112806" />
+        <ComponentRef Id="Component.RevitAddIn2BIMRU.dll_285554492" />
+        <ComponentRef Id="Component.System.Buffers.dll_3379997257" />
+        <ComponentRef Id="Component.System.ComponentModel.Annotations.dll_4080184425" />
+        <ComponentRef Id="Component.System.Drawing.Common.dll_2881823355" />
+        <ComponentRef Id="Component.System.Memory.dll_885890055" />
+        <ComponentRef Id="Component.System.Numerics.Vectors.dll_1708901638" />
+        <ComponentRef Id="Component.System.Runtime.CompilerServices.Unsafe.dll_1475042760" />
+        <ComponentRef Id="Component.System.Threading.Tasks.Extensions.dll_186746824" />
+        <ComponentRef Id="INSTALLDIR" />
+        <ComponentRef Id="Revit" />
+        <ComponentRef Id="Autodesk" />
+      </Feature>
+
+      <Feature Id="_2025_" Title="2025" Absent="allow" Level="1" Description="Install add-in for Revit 2025" ConfigurableDirectory="INSTALL2025">
+        <ComponentRef Id="Component.RevitAddIn2BIMRU.addin_3250509770" />
+        <ComponentRef Id="Component.RevitAddIn2BIMRU.4" />
+        <ComponentRef Id="Component.CommunityToolkit.Mvvm.dll_3004271474" />
+        <ComponentRef Id="Component.JetBrains.Annotations.dll_260837342" />
+        <ComponentRef Id="Component.Nice3point.Revit.Extensions.dll_3009699674" />
+        <ComponentRef Id="Component.Nice3point.Revit.Toolkit.dll_2932399743" />
+        <ComponentRef Id="Component.RevitAddIn2BIMRU.deps.json_438270512" />
+        <ComponentRef Id="Component.RevitAddIn2BIMRU.dll_2815790925" />
+        <ComponentRef Id="Component.RevitAddIn2BIMRU.runtimeconfig.json_3594751874" />
+        <ComponentRef Id="INSTALLDIR" />
+        <ComponentRef Id="Revit" />
+        <ComponentRef Id="Autodesk" />
+      </Feature>
+
+      <Feature Id="_2026_" Title="2026" Absent="allow" Level="1" Description="Install add-in for Revit 2026" ConfigurableDirectory="INSTALL2026">
+        <ComponentRef Id="Component.RevitAddIn2BIMRU.addin_4172745715" />
+        <ComponentRef Id="Component.RevitAddIn2BIMRU.5" />
+        <ComponentRef Id="Component.CommunityToolkit.Mvvm.dll_3271969488" />
+        <ComponentRef Id="Component.JetBrains.Annotations.dll_3016910307" />
+        <ComponentRef Id="Component.Nice3point.Revit.Extensions.dll_960312051" />
+        <ComponentRef Id="Component.Nice3point.Revit.Toolkit.dll_3277355152" />
+        <ComponentRef Id="Component.RevitAddIn2BIMRU.deps.json_2948116613" />
+        <ComponentRef Id="Component.RevitAddIn2BIMRU.dll_1031385696" />
+        <ComponentRef Id="Component.RevitAddIn2BIMRU.runtimeconfig.json_2517451512" />
+        <ComponentRef Id="INSTALLDIR" />
+        <ComponentRef Id="Revit" />
+        <ComponentRef Id="Autodesk" />
+      </Feature>
+
+      <ComponentRef Id="INSTALLDIR" />
+      <ComponentRef Id="Revit" />
+      <ComponentRef Id="Autodesk" />
+    </Feature>
+
+  </Product>
+</Wix>
+
