@@ -16,13 +16,13 @@ var project = new Project
     UI = WUI.WixUI_FeatureTree,
     MajorUpgrade = MajorUpgrade.Default,
     GUID = new Guid("DB8323DF-C4C6-44D0-B4FF-DDA42B22CF0E"),
-    BannerImage = @"install\Resources\Icons\BannerImage.png",
-    BackgroundImage = @"install\Resources\Icons\BackgroundImage.png",
+    BannerImage = @"C:\Users\comp44\source\repos\igorkhisamiev75\SOLUTION2BIMRURNW\install\Resources\Icons\BannerImage.png",
+    BackgroundImage = @"C:\Users\comp44\source\repos\igorkhisamiev75\SOLUTION2BIMRURNW\install\Resources\Icons\BackgroundImage.png",
     Version = Assembly.GetExecutingAssembly().GetName().Version.ClearRevision(),
     ControlPanelInfo =
     {
         Manufacturer = Environment.UserName,
-        ProductIcon = @"install\Resources\Icons\ShellIcon.ico"
+        ProductIcon = @"C:\Users\comp44\source\repos\igorkhisamiev75\SOLUTION2BIMRURNW\install\Resources\Icons\ShellIcon.ico"
     }
 };
 
