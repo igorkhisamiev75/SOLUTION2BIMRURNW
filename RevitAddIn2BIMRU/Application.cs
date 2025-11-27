@@ -3,7 +3,9 @@
 using Nice3point.Revit.Toolkit.External;
 
 using RevitAddIn2BIMRU.Commands;
+using RevitAddIn2BIMRU.Commands.AI;
 using RevitAddIn2BIMRU.Commands.AN;
+using RevitAddIn2BIMRU.Commands.AR;
 using RevitAddIn2BIMRU.Commands.BIM;
 using RevitAddIn2BIMRU.Commands.BIM.CreateWS;
 using RevitAddIn2BIMRU.Commands.INFO;
@@ -89,6 +91,119 @@ namespace RevitAddIn2BIMRU
             roomsSplitButton.AddPushButton(createNameSetButtonData);
             roomsSplitButton.AddPushButton(delUnplacedCommandButtonData);
             roomsSplitButton.AddPushButton(writyTypeRoomCommandButtonData);
+
+
+            //Архитектра
+
+            // Создаем SplitButton для панели AR
+            SplitButtonData splitButtonDataAR = new SplitButtonData("arSplitButton", "Операции для AR");
+            SplitButton arSplitButton = arPanel.AddItem(splitButtonDataAR) as SplitButton;
+
+            // Добавляем 4 кнопки в SplitButton AR
+            PushButtonData ar1SetButtonData = new PushButtonData(
+                "LintelsOnTheFloor",
+                "Перемычки",
+                Assembly.GetExecutingAssembly().Location,
+                typeof(LintelsOnTheFloor).FullName)
+            {
+                Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
+                ToolTip = "Перемычки"
+            };
+
+            //PushButtonData ar2SetButtonData = new PushButtonData(
+            //    "AROperation2",
+            //    "AR операция 2",
+            //    Assembly.GetExecutingAssembly().Location,
+            //    typeof(YourARCommand2).FullName)
+            //{
+            //    Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
+            //    LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
+            //    ToolTip = "Описание AR функции 2"
+            //};
+
+            //PushButtonData ar3SetButtonData = new PushButtonData(
+            //    "AROperation3",
+            //    "AR операция 3",
+            //    Assembly.GetExecutingAssembly().Location,
+            //    typeof(YourARCommand3).FullName)
+            //{
+            //    Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
+            //    LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
+            //    ToolTip = "Описание AR функции 3"
+            //};
+
+            //PushButtonData ar4SetButtonData = new PushButtonData(
+            //    "AROperation4",
+            //    "AR операция 4",
+            //    Assembly.GetExecutingAssembly().Location,
+            //    typeof(YourARCommand4).FullName)
+            //{
+            //    Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
+            //    LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
+            //    ToolTip = "Описание AR функции 4"
+            //};
+
+            // Добавляем все 4 кнопки в SplitButton AR
+            arSplitButton.AddPushButton(ar1SetButtonData);
+            //arSplitButton.AddPushButton(ar2SetButtonData);
+            //arSplitButton.AddPushButton(ar3SetButtonData);
+            //arSplitButton.AddPushButton(ar4SetButtonData);
+
+            // Создаем SplitButton для панели AI
+            SplitButtonData splitButtonDataAI = new SplitButtonData("aiSplitButton", "Операции для AI");
+            SplitButton aiSplitButton = aiPanel.AddItem(splitButtonDataAI) as SplitButton;
+
+            // Добавляем 4 кнопки в SplitButton AI
+            PushButtonData ai1SetButtonData = new PushButtonData(
+                "CreteFinishWalls",
+                "Отделка помещений",
+                Assembly.GetExecutingAssembly().Location,
+                typeof(CreteFinishWalls).FullName)
+            {
+                Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/kist16.png")),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/kist32.png")),
+                ToolTip = "Создать отделочные стены, потолки и полы в помещении, *потолоки с 23 ревита"
+            };
+
+            PushButtonData ai2SetButtonData = new PushButtonData(
+                "FinishingOnTheStairs",
+                "Отделка лестницы",
+                Assembly.GetExecutingAssembly().Location,
+                typeof(FinishingOnTheStairs).FullName)
+            {
+                Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/kist16.png")),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/kist32.png")),
+                ToolTip = "Сделать отделку на лестнице"
+            };
+
+            //PushButtonData ai3SetButtonData = new PushButtonData(
+            //    "AIOperation3",
+            //    "AI операция 3",
+            //    Assembly.GetExecutingAssembly().Location,
+            //    typeof(YourAICommand3).FullName)
+            //{
+            //    Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
+            //    LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
+            //    ToolTip = "Описание AI функции 3"
+            //};
+
+            //PushButtonData ai4SetButtonData = new PushButtonData(
+            //    "AIOperation4",
+            //    "AI операция 4",
+            //    Assembly.GetExecutingAssembly().Location,
+            //    typeof(YourAICommand4).FullName)
+            //{
+            //    Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
+            //    LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
+            //    ToolTip = "Описание AI функции 4"
+            //};
+
+            // Добавляем все 4 кнопки в SplitButton AI
+            aiSplitButton.AddPushButton(ai1SetButtonData);
+            aiSplitButton.AddPushButton(ai2SetButtonData);
+            //aiSplitButton.AddPushButton(ai3SetButtonData);
+            //aiSplitButton.AddPushButton(ai4SetButtonData);
 
             //MEP настройки
 
