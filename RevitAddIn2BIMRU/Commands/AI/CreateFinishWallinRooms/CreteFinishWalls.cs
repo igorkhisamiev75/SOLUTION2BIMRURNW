@@ -34,9 +34,6 @@ namespace RevitAddIn2BIMRU.Commands.AI
         public List<Room> roomsCollection2 = new List<Room>();
         public List<String> roomsNameInProject = new List<String>();
 
-        //public ICollection<Element> filtersCollectionCopy = new List<Element>();
-
-        //public ICollection<Element> unusedFiltersCollection = new List<Element>();
 
         public IList<WallType> typeCollectionWall = new List<WallType>();
 
@@ -154,7 +151,7 @@ namespace RevitAddIn2BIMRU.Commands.AI
 
             //TaskDialog.Show("1Смещение от уровня", $"{vpViewWpf.ofsetWallS}");
             //TaskDialog.Show("2Смещение от уровня", $"{wallOffset}");
-#if R2019 || R2020 || R2021 
+#if REVIT2021 
 
            wallOffset = UnitUtils.Convert(wallOffset, DisplayUnitType.DUT_MILLIMETERS, DisplayUnitType.DUT_DECIMAL_FEET);
 
@@ -169,7 +166,7 @@ namespace RevitAddIn2BIMRU.Commands.AI
             {
                 wallHeight = Convert.ToDouble(vpViewWpf.heighWallUser);
 
-#if R2019 || R2020 || R2021 
+#if REVIT2021 
                 wallHeight = UnitUtils.Convert(wallHeight, DisplayUnitType.DUT_MILLIMETERS, DisplayUnitType.DUT_DECIMAL_FEET);
 #else
                 wallHeight = UnitUtils.ConvertFromInternalUnits(wallHeight, UnitTypeId.Millimeters);
@@ -586,7 +583,7 @@ namespace RevitAddIn2BIMRU.Commands.AI
                     profile.Append((Line)g);
                 }
 
-#if R2019 || R2020 || R2021 || R2022
+#if REVIT2021 || REVIT2022
                 floor = _doc.Create.NewFloor(newSortCurve, floorType3, r1.Level, false);
                 floor.get_Parameter(new Guid(ADSK_Primechanie)).Set(numberRoom);
                 floor.get_Parameter(BuiltInParameter.ALL_MODEL_INSTANCE_COMMENTS).Set(nameRoom);
@@ -1070,11 +1067,11 @@ namespace RevitAddIn2BIMRU.Commands.AI
 
                     }
 
-                    //TaskDialog.Show("В профиль добавили", $"{profile.Count()}");//4 2
+                    
 
 
                     looplist.Add(profile);
-                    //TaskDialog.Show("looplist", $"{looplist.Count()}");//1 2
+                   
 
                 }
 
@@ -1085,15 +1082,10 @@ namespace RevitAddIn2BIMRU.Commands.AI
 
             string v = looplist.Count.ToString();
 
-            //TaskDialog.Show("looplist", $"{v}");
-
-#if R2019 || R2020 || R2021 || R2022
-            //floor = _doc.Create.NewFloor(newSortCurve, floorType3, r1.Level, false);
-            //floor.get_Parameter(new Guid(ADSK_Primechanie)).Set(numberRoom);
-            //floor.get_Parameter(BuiltInParameter.ALL_MODEL_INSTANCE_COMMENTS).Set(nameRoom);
+#if REVIT2021 || REVIT2022
+            TaskDialog.Show("Увы", "Потолки можно только в 23 ревите атвоматом сделать");
 #else
-            //TaskDialog.Show("У тебя получилось", $"{profile.GetType()} Потолок создается ☺☺☺");
-
+           
             ceiling = Ceiling.Create(_doc, looplist, ceilingType.Id, level.Id);
 
             ceiling.get_Parameter(BuiltInParameter.CEILING_HEIGHTABOVELEVEL_PARAM).Set(heightRoom);

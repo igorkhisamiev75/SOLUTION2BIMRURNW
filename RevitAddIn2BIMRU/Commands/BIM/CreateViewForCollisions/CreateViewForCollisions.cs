@@ -1,20 +1,9 @@
 ﻿#region Namespace
 using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 
-using Microsoft.Win32;
-
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Xml;
 
