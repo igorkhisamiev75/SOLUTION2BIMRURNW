@@ -75,6 +75,17 @@ namespace RevitAddIn2BIMRU
                 ToolTip = "Удалить неразмещенные помещения"
             };
 
+            PushButtonData delUnplacedCommandButtonData2 = new PushButtonData(
+               "DelUnplacedAreas",
+               "Удалить неразмещенные зоны",
+               Assembly.GetExecutingAssembly().Location,
+               typeof(DelUnplacedAreas).FullName)
+            {
+                Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/del16.png")),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/del32.png")),
+                ToolTip = "Удалить неразмещенные зоны"
+            };
+
             PushButtonData writyTypeRoomCommandButtonData = new PushButtonData(
                 "WriteTypeRooms",
                 "Прописать тип квартиры",
@@ -89,6 +100,7 @@ namespace RevitAddIn2BIMRU
             // Добавляем кнопки в SplitButton
             roomsSplitButton.AddPushButton(createNameSetButtonData);
             roomsSplitButton.AddPushButton(delUnplacedCommandButtonData);
+            roomsSplitButton.AddPushButton(delUnplacedCommandButtonData2);
             roomsSplitButton.AddPushButton(writyTypeRoomCommandButtonData);
 
 
