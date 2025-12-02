@@ -122,16 +122,16 @@ namespace RevitAddIn2BIMRU
                 ToolTip = "Перемычки"
             };
 
-            //PushButtonData ar2SetButtonData = new PushButtonData(
-            //    "AROperation2",
-            //    "AR операция 2",
-            //    Assembly.GetExecutingAssembly().Location,
-            //    typeof(YourARCommand2).FullName)
-            //{
-            //    Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
-            //    LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
-            //    ToolTip = "Описание AR функции 2"
-            //};
+            PushButtonData ar2SetButtonData = new PushButtonData(
+                "DisconnectWallsOptimized",
+                "Отмена примыканий для стен",
+                Assembly.GetExecutingAssembly().Location,
+                typeof(DisconnectWallsOptimized).FullName)
+            {
+                Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
+                ToolTip = "Отмена примыканий для стен"
+            };
 
             //PushButtonData ar3SetButtonData = new PushButtonData(
             //    "AROperation3",
@@ -157,7 +157,7 @@ namespace RevitAddIn2BIMRU
 
             // Добавляем все 4 кнопки в SplitButton AR
             arSplitButton.AddPushButton(ar1SetButtonData);
-            //arSplitButton.AddPushButton(ar2SetButtonData);
+            arSplitButton.AddPushButton(ar2SetButtonData);
             //arSplitButton.AddPushButton(ar3SetButtonData);
             //arSplitButton.AddPushButton(ar4SetButtonData);
 
