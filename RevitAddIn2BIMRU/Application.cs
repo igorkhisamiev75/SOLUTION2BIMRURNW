@@ -323,11 +323,23 @@ namespace RevitAddIn2BIMRU
                 ToolTip = "Перевести оси в 2D либо 3D"
             };
 
+            PushButtonData an5SetButtonData = new PushButtonData(
+                "MarkElementsByPosition",
+                "Маркировка элементов",
+                Assembly.GetExecutingAssembly().Location,
+                typeof(MarkElementsByGrid).FullName)
+            {
+                Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/sol16.png")),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/sol32.png")),
+                ToolTip = "Маркировка элементов по своим правилам"
+            };
+
             // Добавляем кнопки в SplitButton AN
             anSplitButton.AddPushButton(an1SetButtonData);
             anSplitButton.AddPushButton(an2SetButtonData);
             anSplitButton.AddPushButton(an3SetButtonData);
             anSplitButton.AddPushButton(an4SetButtonData);
+            anSplitButton.AddPushButton(an5SetButtonData);
 
             // Создаем SplitButton для панели BIM
             SplitButtonData splitButtonDataBIM = new SplitButtonData("bimSplitButton", "Операции для BIM");
