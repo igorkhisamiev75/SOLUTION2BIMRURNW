@@ -654,24 +654,25 @@ namespace RevitAddIn2BIMRU.Commands.BIM
 
         /// <summary>
         /// Применение графических настроек с разными цветами для двух коллизий
+        /// БЕЗ прозрачности для элементов коллизии
         /// </summary>
         private void ApplyColorOverrides(View3D view, List<Element> collision1Elements, List<Element> collision2Elements, ElementId solidFillPatternId)
         {
-            // Настройки для элементов первой коллизии
+            // Настройки для элементов первой коллизии - БЕЗ ПРОЗРАЧНОСТИ
             OverrideGraphicSettings collision1Ogs = new OverrideGraphicSettings();
             collision1Ogs.SetProjectionLineColor(new Autodesk.Revit.DB.Color(_collision1Color.R, _collision1Color.G, _collision1Color.B));
             collision1Ogs.SetProjectionLineWeight(5);
             collision1Ogs.SetSurfaceForegroundPatternId(solidFillPatternId);
             collision1Ogs.SetSurfaceForegroundPatternColor(new Autodesk.Revit.DB.Color(_collision1Color.R, _collision1Color.G, _collision1Color.B));
-            collision1Ogs.SetSurfaceTransparency(_transparency);
+            collision1Ogs.SetSurfaceTransparency(0); // Убрана прозрачность для коллизии
 
-            // Настройки для элементов второй коллизии
+            // Настройки для элементов второй коллизии - БЕЗ ПРОЗРАЧНОСТИ
             OverrideGraphicSettings collision2Ogs = new OverrideGraphicSettings();
             collision2Ogs.SetProjectionLineColor(new Autodesk.Revit.DB.Color(_collision2Color.R, _collision2Color.G, _collision2Color.B));
             collision2Ogs.SetProjectionLineWeight(5);
             collision2Ogs.SetSurfaceForegroundPatternId(solidFillPatternId);
             collision2Ogs.SetSurfaceForegroundPatternColor(new Autodesk.Revit.DB.Color(_collision2Color.R, _collision2Color.G, _collision2Color.B));
-            collision2Ogs.SetSurfaceTransparency(_transparency);
+            collision2Ogs.SetSurfaceTransparency(0); // Убрана прозрачность для коллизии
 
             // Настройки для остальных элементов (прозрачность)
             OverrideGraphicSettings transparentOgs = new OverrideGraphicSettings();
@@ -679,7 +680,7 @@ namespace RevitAddIn2BIMRU.Commands.BIM
             transparentOgs.SetProjectionLineWeight(1);
             transparentOgs.SetSurfaceForegroundPatternId(solidFillPatternId);
             transparentOgs.SetSurfaceForegroundPatternColor(new Autodesk.Revit.DB.Color(200, 200, 200));
-            transparentOgs.SetSurfaceTransparency((byte)_transparency);
+            transparentOgs.SetSurfaceTransparency((byte)_transparency); // Прозрачность для всех остальных
 
             // Получаем все элементы в секционной коробке
             var allElementsInView = new FilteredElementCollector(_doc, view.Id)
@@ -691,17 +692,17 @@ namespace RevitAddIn2BIMRU.Commands.BIM
             {
                 try
                 {
-                    // Если элемент из первой коллизии
+                    // Если элемент из первой коллизии - БЕЗ ПРОЗРАЧНОСТИ
                     if (collision1Elements.Any(e => e.Id == element.Id))
                     {
                         view.SetElementOverrides(element.Id, collision1Ogs);
                     }
-                    // Если элемент из второй коллизии
+                    // Если элемент из второй коллизии - БЕЗ ПРОЗРАЧНОСТИ
                     else if (collision2Elements.Any(e => e.Id == element.Id))
                     {
                         view.SetElementOverrides(element.Id, collision2Ogs);
                     }
-                    // Остальные элементы - прозрачность
+                    // Остальные элементы - С ПРОЗРАЧНОСТЬЮ
                     else
                     {
                         view.SetElementOverrides(element.Id, transparentOgs);
@@ -713,9 +714,8 @@ namespace RevitAddIn2BIMRU.Commands.BIM
                 }
             }
 
-            Debug.WriteLine($"Раскрашено: {collision1Elements.Count} элементов цветом 1, {collision2Elements.Count} элементов цветом 2, {allElementsInView.Count - collision1Elements.Count - collision2Elements.Count} прозрачных");
+            Debug.WriteLine($"Раскрашено: {collision1Elements.Count} элементов цветом 1 (без прозрачности), {collision2Elements.Count} элементов цветом 2 (без прозрачности), {allElementsInView.Count - collision1Elements.Count - collision2Elements.Count} прозрачных");
         }
-
         private BoundingBoxXYZ CreateSectionBoxFromElements(List<Element> elements)
         {
             List<BoundingBoxXYZ> boxes = new List<BoundingBoxXYZ>();
