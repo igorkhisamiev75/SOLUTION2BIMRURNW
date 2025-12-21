@@ -133,16 +133,16 @@ namespace RevitAddIn2BIMRU
                 ToolTip = "Отмена примыканий для стен"
             };
 
-            //PushButtonData ar3SetButtonData = new PushButtonData(
-            //    "AROperation3",
-            //    "AR операция 3",
-            //    Assembly.GetExecutingAssembly().Location,
-            //    typeof(YourARCommand3).FullName)
-            //{
-            //    Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
-            //    LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
-            //    ToolTip = "Описание AR функции 3"
-            //};
+            PushButtonData ar3SetButtonData = new PushButtonData(
+                "WallExtensionCommand",
+                "Создание сеток - Проект LSR",
+                Assembly.GetExecutingAssembly().Location,
+                typeof(WallExtensionCommand).FullName)
+            {
+                Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
+                ToolTip = "Создаем стены поверх других стен"
+            };
 
             //PushButtonData ar4SetButtonData = new PushButtonData(
             //    "AROperation4",
