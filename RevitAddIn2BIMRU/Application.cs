@@ -158,7 +158,7 @@ namespace RevitAddIn2BIMRU
             // Добавляем все 4 кнопки в SplitButton AR
             arSplitButton.AddPushButton(ar1SetButtonData);
             arSplitButton.AddPushButton(ar2SetButtonData);
-            //arSplitButton.AddPushButton(ar3SetButtonData);
+            arSplitButton.AddPushButton(ar3SetButtonData);
             //arSplitButton.AddPushButton(ar4SetButtonData);
 
             // Создаем SplitButton для панели AI
