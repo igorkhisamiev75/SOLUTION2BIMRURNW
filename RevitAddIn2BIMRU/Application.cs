@@ -334,12 +334,24 @@ namespace RevitAddIn2BIMRU
                 ToolTip = "Маркировка элементов по своим правилам"
             };
 
+            PushButtonData an6SetButtonData = new PushButtonData(
+               "MoveAllRoomTagsSmart",
+               "Перенос марок помещений",
+               Assembly.GetExecutingAssembly().Location,
+               typeof(MoveAllRoomTagsSmart).FullName)
+            {
+                Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/sol16.png")),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/sol32.png")),
+                ToolTip = "Перенос марок помещений, с указанием своего допуска"
+            };
+
             // Добавляем кнопки в SplitButton AN
             anSplitButton.AddPushButton(an1SetButtonData);
             anSplitButton.AddPushButton(an2SetButtonData);
             anSplitButton.AddPushButton(an3SetButtonData);
             anSplitButton.AddPushButton(an4SetButtonData);
             anSplitButton.AddPushButton(an5SetButtonData);
+            anSplitButton.AddPushButton(an6SetButtonData);
 
             // Создаем SplitButton для панели BIM
             SplitButtonData splitButtonDataBIM = new SplitButtonData("bimSplitButton", "Операции для BIM");
