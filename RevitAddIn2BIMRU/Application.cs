@@ -468,6 +468,17 @@ namespace RevitAddIn2BIMRU
                 ToolTip = "Точки из Navisworks"
             };
 
+            PushButtonData bim11SetButtonData = new PushButtonData(
+             "CreateModelTextRoomNameInRoom",
+             "Подписать помещения для 3D",
+             Assembly.GetExecutingAssembly().Location,
+             typeof(CreateModelTextRoomNameInRoom).FullName)
+            {
+                Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
+                ToolTip = "Подписать помещения для 3D, семейство Для подписи помещений"
+            };
+
             // Добавляем все 10 кнопок в SplitButton BIM
             bimSplitButton.AddPushButton(bim1SetButtonData);
             bimSplitButton.AddPushButton(bim2SetButtonData);
@@ -479,6 +490,7 @@ namespace RevitAddIn2BIMRU
             bimSplitButton.AddPushButton(bim8SetButtonData);
             bimSplitButton.AddPushButton(bim9SetButtonData);
             bimSplitButton.AddPushButton(bim10SetButtonData);
+            bimSplitButton.AddPushButton(bim11SetButtonData);
 
             //сайт разработчика
             infoPanel.AddPushButton<StartupCommand>("Сайт разработчика")
