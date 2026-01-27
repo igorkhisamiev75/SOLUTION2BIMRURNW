@@ -22,19 +22,19 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Выбор типа стены -->
+        <!-- Выбор типа стены --><!--
         <GroupBox Grid.Row="0" Header="Тип стены">
             <ComboBox x:Name="WallTypeComboBox" Margin="5" 
                       DisplayMemberPath="Name"/>
         </GroupBox>
 
-        <!-- Выбор типа перекрытия -->
+        <!-- Выбор типа перекрытия --><!--
         <GroupBox Grid.Row="1" Header="Тип перекрытия">
             <ComboBox x:Name="FloorTypeComboBox" Margin="5" 
                       DisplayMemberPath="Name"/>
         </GroupBox>
 
-        <!-- Кнопки действий -->
+        <!-- Кнопки действий --><!--
         <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button x:Name="SelectStairsButton" Content="Выбрать лестницу" 
                     Width="120" Height="25" Margin="5" Click="SelectStairsButton_Click"/>

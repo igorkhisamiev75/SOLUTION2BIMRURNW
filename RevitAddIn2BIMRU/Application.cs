@@ -97,22 +97,23 @@ namespace RevitAddIn2BIMRU
                 ToolTip = "Прописать тип квартиры для шаблона Б2"
             };
 
-            PushButtonData writyTypeRoomComm = new PushButtonData(
-                "CalculateOpeningAreas ",
-                "Расчет площадей проемов в помещениях",
-                Assembly.GetExecutingAssembly().Location,
-                typeof(WriteTypeRooms).FullName)
-            {
-                Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/ukaz16.png")),
-                LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/ukaz32.png")),
-                ToolTip = "Расчет площадей проемов в помещениях для АПБ Основа"
-            };
+            //PushButtonData CalculateDoorWindowAreas = new PushButtonData(
+            //    "CalculateDoorWindowAreas ",
+            //    "Расчет площадей проемов в помещениях",
+            //    Assembly.GetExecutingAssembly().Location,
+            //    typeof(CalculateDoorWindowAreas).FullName)
+            //{
+            //    Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/ukaz16.png")),
+            //    LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/ukaz32.png")),
+            //    ToolTip = "Расчет площадей проемов в помещениях для АПБ Основа"
+            //};
 
             // Добавляем кнопки в SplitButton
             roomsSplitButton.AddPushButton(createNameSetButtonData);
             roomsSplitButton.AddPushButton(delUnplacedCommandButtonData);
             roomsSplitButton.AddPushButton(delUnplacedCommandButtonData2);
             roomsSplitButton.AddPushButton(writyTypeRoomCommandButtonData);
+            //roomsSplitButton.AddPushButton(CalculateDoorWindowAreas);
 
 
             //Архитектра

@@ -1067,11 +1067,11 @@ namespace RevitAddIn2BIMRU.Commands.AI
 
                     }
 
-                    
+
 
 
                     looplist.Add(profile);
-                   
+
 
                 }
 

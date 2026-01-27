@@ -13,7 +13,7 @@ namespace RevitAddIn2BIMRU.Commands.BIM
     [Transaction(TransactionMode.Manual)]
     public class CreateModelTextRoomNameInRoom : IExternalCommand
     {
-        
+
         private Document _doc;
 
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
@@ -21,7 +21,7 @@ namespace RevitAddIn2BIMRU.Commands.BIM
             var uiApp = commandData.Application;
             var uiDoc = uiApp.ActiveUIDocument;
 
-            
+
             _doc = uiDoc.Document;
 
             try
