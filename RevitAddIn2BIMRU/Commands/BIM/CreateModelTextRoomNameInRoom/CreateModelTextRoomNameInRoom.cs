@@ -1,10 +1,14 @@
 ﻿#region Namespace
 
-using System.Text;
-
 using Autodesk.Revit.Attributes;
+using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Structure;
 using Autodesk.Revit.UI;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 #endregion
 
@@ -13,7 +17,7 @@ namespace RevitAddIn2BIMRU.Commands.BIM
     [Transaction(TransactionMode.Manual)]
     public class CreateModelTextRoomNameInRoom : IExternalCommand
     {
-        
+
         private Document _doc;
 
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
@@ -21,7 +25,7 @@ namespace RevitAddIn2BIMRU.Commands.BIM
             var uiApp = commandData.Application;
             var uiDoc = uiApp.ActiveUIDocument;
 
-            
+
             _doc = uiDoc.Document;
 
             try
@@ -29,12 +33,13 @@ namespace RevitAddIn2BIMRU.Commands.BIM
                 int createdCount = 0;
                 int errorCount = 0;
                 string sourceModelName = "";
+                bool usedCurrentModel = false;
 
                 using (var t = new Transaction(_doc))
                 {
                     t.Start("Create Room Labels from Link");
 
-                    // Выбор связанной модели
+                    // Выбор модели (связанной или текущей)
                     Document linkedDoc = SelectLinkedDocument(uiApp);
                     if (linkedDoc == null)
                     {
@@ -42,17 +47,32 @@ namespace RevitAddIn2BIMRU.Commands.BIM
                         return Result.Cancelled;
                     }
 
+                    // Проверяем, используем ли мы текущую модель
+                    usedCurrentModel = (linkedDoc == _doc);
+
                     // Сохраняем имя модели для использования после транзакции
                     sourceModelName = linkedDoc.Title;
+                    if (usedCurrentModel)
+                    {
+                        sourceModelName += " (текущая модель)";
+                    }
+
+                    // Проверяем, есть ли помещения в выбранной модели
+                    var rooms = GetRoomsFromDocument(linkedDoc);
+                    if (!rooms.Any())
+                    {
+                        TaskDialog.Show("Информация", $"В выбранной модели '{sourceModelName}' не найдено помещений");
+                        return Result.Cancelled;
+                    }
 
                     // Создаем подписи и получаем статистику
-                    (createdCount, errorCount) = CreateModelTextMethod(uiDoc, linkedDoc);
+                    (createdCount, errorCount) = CreateModelTextMethod(uiDoc, linkedDoc, usedCurrentModel);
 
                     t.Commit();
                 }
 
                 // Формируем сообщение с результатами
-                string resultMessage = CreateResultMessage(createdCount, errorCount, sourceModelName);
+                string resultMessage = CreateResultMessage(createdCount, errorCount, sourceModelName, usedCurrentModel);
                 TaskDialog.Show("Готово", resultMessage);
 
                 return Result.Succeeded;
@@ -65,10 +85,10 @@ namespace RevitAddIn2BIMRU.Commands.BIM
             }
         }
 
-        public (int createdCount, int errorCount) CreateModelTextMethod(UIDocument uiDocument, Document linkedDocument)
+        public (int createdCount, int errorCount) CreateModelTextMethod(UIDocument uiDocument, Document sourceDocument, bool isCurrentModel = false)
         {
-            // Получаем помещения из связанной модели
-            var rooms = GetRoomsFromLinkedDocument(linkedDocument);
+            // Получаем помещения из модели-источника
+            var rooms = GetRoomsFromDocument(sourceDocument);
 
             FamilySymbol symbol = GetSymbol(_doc, "Для подписи помещений", "Для подписи помещений");
 
@@ -81,9 +101,13 @@ namespace RevitAddIn2BIMRU.Commands.BIM
             if (!symbol.IsActive)
                 symbol.Activate();
 
-            // Получаем трансформацию связанного файла
-            RevitLinkInstance linkInstance = GetRevitLinkInstance(linkedDocument);
-            Transform linkTransform = linkInstance?.GetTotalTransform() ?? Transform.Identity;
+            // Получаем трансформацию связанного файла (только если это не текущая модель)
+            Transform linkTransform = Transform.Identity;
+            if (!isCurrentModel)
+            {
+                RevitLinkInstance linkInstance = GetRevitLinkInstance(sourceDocument);
+                linkTransform = linkInstance?.GetTotalTransform() ?? Transform.Identity;
+            }
 
             int createdCount = 0;
             int errorCount = 0;
@@ -97,18 +121,18 @@ namespace RevitAddIn2BIMRU.Commands.BIM
                     var roomName = room.get_Parameter(BuiltInParameter.ROOM_NAME)?.AsString() ?? "Без имени";
                     var roomNumber = room.get_Parameter(BuiltInParameter.ROOM_NUMBER)?.AsString() ?? "Без номера";
 
-                    // Получаем уровень помещения из связанной модели
+                    // Получаем уровень помещения из модели-источника
                     var levelId = room.LevelId;
-                    Level linkedLevel = linkedDocument.GetElement(levelId) as Level;
+                    Level sourceLevel = sourceDocument.GetElement(levelId) as Level;
 
-                    if (linkedLevel == null)
+                    if (sourceLevel == null)
                     {
                         errorCount++;
                         continue;
                     }
 
                     // Находим соответствующий уровень в текущем документе
-                    Level currentLevel = FindCorrespondingLevel(linkedLevel);
+                    Level currentLevel = FindCorrespondingLevel(sourceLevel);
                     if (currentLevel == null)
                     {
                         errorCount++;
@@ -126,7 +150,8 @@ namespace RevitAddIn2BIMRU.Commands.BIM
                     XYZ pointRoom = lpPoint.Point;
 
                     // Преобразуем координаты из связанного файла в координаты основного файла
-                    XYZ transformedPoint = linkTransform.OfPoint(pointRoom);
+                    // Если это текущая модель, трансформация не нужна
+                    XYZ transformedPoint = isCurrentModel ? pointRoom : linkTransform.OfPoint(pointRoom);
 
                     // Устанавливаем высоту на основе уровня текущего документа + 100 мм
                     double elevation = currentLevel.Elevation + UnitUtils.ConvertToInternalUnits(0.1, UnitTypeId.Meters);
@@ -223,7 +248,7 @@ namespace RevitAddIn2BIMRU.Commands.BIM
         /// <summary>
         /// Создает сообщение с результатами работы
         /// </summary>
-        private string CreateResultMessage(int createdCount, int errorCount, string sourceModelName)
+        private string CreateResultMessage(int createdCount, int errorCount, string sourceModelName, bool usedCurrentModel = false)
         {
             StringBuilder message = new StringBuilder();
 
@@ -231,6 +256,12 @@ namespace RevitAddIn2BIMRU.Commands.BIM
             message.AppendLine();
             message.AppendLine($"📊 Статистика выполнения:");
             message.AppendLine($"────────────────────────");
+
+            if (usedCurrentModel)
+            {
+                message.AppendLine($"ℹ️  Использована текущая модель");
+            }
+
             message.AppendLine($"📝 Подписано помещений: {createdCount}");
 
             if (errorCount > 0)
@@ -287,7 +318,7 @@ namespace RevitAddIn2BIMRU.Commands.BIM
         }
 
         /// <summary>
-        /// Диалог выбора связанной модели
+        /// Диалог выбора модели (связанной или текущей)
         /// </summary>
         private Document SelectLinkedDocument(UIApplication uiApp)
         {
@@ -298,13 +329,17 @@ namespace RevitAddIn2BIMRU.Commands.BIM
                 .Where(x => x.GetLinkDocument() != null)
                 .ToList();
 
+            // Если нет связанных моделей, сразу возвращаем текущую модель
             if (!linkInstances.Any())
             {
-                TaskDialog.Show("Ошибка", "В проекте нет связанных моделей");
-                return null;
+                // Показываем информационное сообщение
+                TaskDialog.Show("Информация",
+                    "В проекте нет связанных моделей.\n" +
+                    "Будут использованы помещения из текущей модели.");
+                return _doc; // Возвращаем текущую модель
             }
 
-            // Создаем диалог выбора
+            // Если есть связанные модели, показываем диалог выбора
             var options = linkInstances.Select(x =>
             {
                 var doc = x.GetLinkDocument();
@@ -352,11 +387,11 @@ namespace RevitAddIn2BIMRU.Commands.BIM
         }
 
         /// <summary>
-        /// Получаем помещения из связанного документа
+        /// Получаем помещения из документа (универсальный метод)
         /// </summary>
-        private IList<Element> GetRoomsFromLinkedDocument(Document linkedDoc)
+        private IList<Element> GetRoomsFromDocument(Document document)
         {
-            var roomCollector = new FilteredElementCollector(linkedDoc)
+            var roomCollector = new FilteredElementCollector(document)
                 .OfCategory(BuiltInCategory.OST_Rooms)
                 .WhereElementIsNotElementType();
 
@@ -382,15 +417,6 @@ namespace RevitAddIn2BIMRU.Commands.BIM
 #else
             return (int)(newElement.FirstOrDefault()?.Value ?? 0);
 #endif
-        }
-
-        public IList<Element> GetRoomsOnCurrentProject(Document doc)
-        {
-            var roomCollector = new FilteredElementCollector(doc)
-                .OfCategory(BuiltInCategory.OST_Rooms)
-                .WhereElementIsNotElementType();
-
-            return roomCollector.ToElements();
         }
 
         public FamilySymbol GetSymbol(Document document, string familyName, string symbolName)
