@@ -97,6 +97,8 @@ namespace RevitAddIn2BIMRU
                 ToolTip = "Прописать тип квартиры для шаблона Б2"
             };
 
+
+            //для Основы расчет проемов
             PushButtonData writyTypeRoomCommandButtonData2 = new PushButtonData(
              "CalculateDoorWindowAreas",
              "Расчет S проемов в помещении(окна, двери, витражи, разделители)",
@@ -108,12 +110,25 @@ namespace RevitAddIn2BIMRU
                 ToolTip = "Расчет S проемов в помещении(окна, двери, витражи, разделители)"
             };
 
+            //для Основы расчет проемов
+            PushButtonData EnhancedApartmentProcessorCommandButtonData = new PushButtonData(
+             "EnhancedApartmentProcessor",
+             "Расчет уникального порядкого номера",
+             Assembly.GetExecutingAssembly().Location,
+             typeof(EnhancedApartmentProcessor).FullName)
+            {
+                Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/ukaz16.png")),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/ukaz32.png")),
+                ToolTip = "Расчет уникального порядкого номера для команды IKI"
+            };
+
             // Добавляем кнопки в SplitButton
             roomsSplitButton.AddPushButton(createNameSetButtonData);
             roomsSplitButton.AddPushButton(delUnplacedCommandButtonData);
             roomsSplitButton.AddPushButton(delUnplacedCommandButtonData2);
             roomsSplitButton.AddPushButton(writyTypeRoomCommandButtonData);
             roomsSplitButton.AddPushButton(writyTypeRoomCommandButtonData2);
+            roomsSplitButton.AddPushButton(EnhancedApartmentProcessorCommandButtonData);
 
 
             //Архитектра
