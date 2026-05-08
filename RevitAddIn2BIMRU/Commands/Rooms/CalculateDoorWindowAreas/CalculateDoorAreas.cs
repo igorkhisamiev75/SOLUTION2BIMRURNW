@@ -992,7 +992,7 @@ namespace RevitAddIn2BIMRU.Commands
                 Element doorType = doc.GetElement(doorTypeId);
                 if (doorType == null) return 0;
 
-                double area = GetAreaFromDirectParameter(doorType, new[] { "Площадь", "Area", "Площадь проема", "Проем", "Площадь двери", "Door Area" });
+                double area = GetAreaFromDirectParameter(doorType, new[] { "ADSK_Размер_Площадь", "Area", "Площадь проема", "Проем", "Площадь двери", "Площадь" });
                 if (area > 0)
                 {
                     return area;

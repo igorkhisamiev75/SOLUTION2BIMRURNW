@@ -11,6 +11,8 @@ using RevitAddIn2BIMRU.Commands.BIM.CreateWS;
 using RevitAddIn2BIMRU.Commands.INFO;
 using RevitAddIn2BIMRU.Commands.INFO.HelpBIM;
 using RevitAddIn2BIMRU.Commands.MEP;
+using RevitAddIn2BIMRU.Commands.SP;
+
 using System.Reflection;
 using System.Windows.Media.Imaging;
 
@@ -37,6 +39,7 @@ namespace RevitAddIn2BIMRU
             string panelNameMEP = "MEP-Надстройки";
             string panelNameAnnotation = "AN-Аннотации";
             string panelNameBim = "BIM-Менеджер";
+            string panelNameSP = "StanadartProject";
             string panelNameInfo = "Info";
 
             // Создаем основную панели
@@ -46,6 +49,7 @@ namespace RevitAddIn2BIMRU
             RibbonPanel mepPanel = Application.CreatePanel(panelNameMEP, tabName);
             RibbonPanel anPanel = Application.CreatePanel(panelNameAnnotation, tabName);
             RibbonPanel bimPanel = Application.CreatePanel(panelNameBim, tabName);
+            RibbonPanel spPanel = Application.CreatePanel(panelNameSP, tabName);
             RibbonPanel infoPanel = Application.CreatePanel(panelNameInfo, tabName);
 
             // Создаем SplitButton для панели Rooms
@@ -171,22 +175,22 @@ namespace RevitAddIn2BIMRU
                 ToolTip = "Создаем стены поверх других стен"
             };
 
-            //PushButtonData ar4SetButtonData = new PushButtonData(
-            //    "AROperation4",
-            //    "AR операция 4",
-            //    Assembly.GetExecutingAssembly().Location,
-            //    typeof(YourARCommand4).FullName)
-            //{
-            //    Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
-            //    LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
-            //    ToolTip = "Описание AR функции 4"
-            //};
+            PushButtonData ar4SetButtonData = new PushButtonData(
+                "WallTablePlugin",
+                "Создание спецификации на стены",
+                Assembly.GetExecutingAssembly().Location,
+                typeof(WallTablePlugin).FullName)
+            {
+                Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
+                ToolTip = "Создание спецификации на стены и размещение на листе"
+            };
 
             // Добавляем все 4 кнопки в SplitButton AR
             arSplitButton.AddPushButton(ar1SetButtonData);
             arSplitButton.AddPushButton(ar2SetButtonData);
             arSplitButton.AddPushButton(ar3SetButtonData);
-            //arSplitButton.AddPushButton(ar4SetButtonData);
+            arSplitButton.AddPushButton(ar4SetButtonData);
 
             // Создаем SplitButton для панели AI
             SplitButtonData splitButtonDataAI = new SplitButtonData("aiSplitButton", "Операции для AI");
@@ -506,6 +510,28 @@ namespace RevitAddIn2BIMRU
                 ToolTip = "Подписать помещения для 3D, семейство Для подписи помещений"
             };
 
+            PushButtonData bim12SetButtonData = new PushButtonData(
+            "Create3DViewsForWorksets",
+            "3D вид для каждого РН",
+            Assembly.GetExecutingAssembly().Location,
+            typeof(Create3DViewsForWorksets).FullName)
+            {
+                Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
+                ToolTip = "Создаст 3д вид для каждого РН и отключит лишнии"
+            };
+
+            PushButtonData bim13SetButtonData = new PushButtonData(
+           "Room3DViewCreator",
+           "3D вид помещений",
+           Assembly.GetExecutingAssembly().Location,
+           typeof(Room3DViewCreator).FullName)
+            {
+                Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
+                ToolTip = "Создаст 3D вид помещений и разместит на листе, для паспорта помещений"
+            };
+
             // Добавляем все 10 кнопок в SplitButton BIM
             bimSplitButton.AddPushButton(bim1SetButtonData);
             bimSplitButton.AddPushButton(bim2SetButtonData);
@@ -518,6 +544,63 @@ namespace RevitAddIn2BIMRU
             bimSplitButton.AddPushButton(bim9SetButtonData);
             bimSplitButton.AddPushButton(bim10SetButtonData);
             bimSplitButton.AddPushButton(bim11SetButtonData);
+            bimSplitButton.AddPushButton(bim12SetButtonData);
+            bimSplitButton.AddPushButton(bim13SetButtonData);
+
+            // Создаем SplitButton для панели SP
+            SplitButtonData splitButtonDataSP = new SplitButtonData("spSplitButton", "Операции для SP");
+            SplitButton spSplitButton = spPanel.AddItem(splitButtonDataSP) as SplitButton;
+
+            // Добавляем  кнопок в SplitButton SP
+            PushButtonData sp1SetButtonData = new PushButtonData(
+                "SetPanelDimensions",
+                "1 Выполнить расчет для ПВ",
+                Assembly.GetExecutingAssembly().Location,
+                typeof(SetPanelDimensions).FullName)
+            {
+                Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
+                ToolTip = "1 Выполнить расчет для ПВ"
+            };
+
+            PushButtonData sp2SetButtonData = new PushButtonData(
+                "ScheduleCreator",
+                "2 Спецификация стеновых сэндвич панелей",
+                Assembly.GetExecutingAssembly().Location,
+                typeof(ScheduleCreator).FullName)
+            {
+                Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
+                ToolTip = "2 Спецификация стеновых сэндвич панелей"
+            };
+
+            PushButtonData sp3SetButtonData = new PushButtonData(
+                "PanelInfoToWallParameter",
+                "3 Заполнить информацию в стену и получить спеку на шалабушки",
+                Assembly.GetExecutingAssembly().Location,
+                typeof(PanelInfoToWallParameter).FullName)
+            {
+                Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
+                ToolTip = "3 Заполнить информацию в стену и получить спеку на шалабушки"
+            };
+
+            PushButtonData sp4SetButtonData = new PushButtonData(
+              "SectionFromCurtainWall",
+              "4 Разрез для стены и размещение на листе",
+              Assembly.GetExecutingAssembly().Location,
+              typeof(SectionFromCurtainWall).FullName)
+            {
+                Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
+                ToolTip = "4 Разрез для стены и размещение на листе"
+            };
+
+            // Добавляем все 3 кнопок в SplitButton SP
+            spSplitButton.AddPushButton(sp1SetButtonData);
+            spSplitButton.AddPushButton(sp2SetButtonData);
+            spSplitButton.AddPushButton(sp3SetButtonData);
+            spSplitButton.AddPushButton(sp4SetButtonData);
 
             //сайт разработчика
             infoPanel.AddPushButton<StartupCommand>("Сайт разработчика")

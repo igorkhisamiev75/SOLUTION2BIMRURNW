@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
+using System.Diagnostics;
 
 using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.Attributes;
@@ -21,163 +23,164 @@ namespace RevitAddIn2BIMRU.Commands
             ElementSet elements)
         {
             UIApplication uiApp = commandData.Application;
+            Autodesk.Revit.ApplicationServices.Application revitApp = uiApp.Application;
 
             try
             {
-                // Создаем диалог для выбора файлов
-                var dialog = new System.Windows.Forms.OpenFileDialog();
+                // Диалог выбора файлов
+                OpenFileDialog dialog = new OpenFileDialog();
                 dialog.Filter = "Revit Files (*.rvt)|*.rvt";
                 dialog.Multiselect = true;
-                dialog.Title = "Выберите файлы для обработки";
+                dialog.Title = "Выберите файлы с квартирами";
 
-                if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
-                {
+                if (dialog.ShowDialog() != DialogResult.OK)
                     return Result.Cancelled;
-                }
 
-                // Шаг 1: Сбор всех данных из всех файлов
-                var allData = new List<ApartmentData>();
-                var debugInfo = new StringBuilder();
-                debugInfo.AppendLine("=== ОТЛАДОЧНАЯ ИНФОРМАЦИЯ ===");
+                // Этап 1: Сбор ВСЕХ данных
+                List<ApartmentData> allApartments = new List<ApartmentData>();
+                string log = "=== ЛОГ ОБРАБОТКИ ===\n\n";
 
                 foreach (string filePath in dialog.FileNames)
                 {
-                    debugInfo.AppendLine($"\nФайл: {Path.GetFileName(filePath)}");
-
-                    var fileData = CollectDataFromFile(uiApp.Application, filePath, debugInfo);
-                    allData.AddRange(fileData);
-
-                    debugInfo.AppendLine($"  Найдено квартир: {fileData.Count}");
+                    log += $"Чтение файла: {Path.GetFileName(filePath)}\n";
+                    try
+                    {
+                        var apartments = ReadApartmentsFromFile(revitApp, filePath);
+                        allApartments.AddRange(apartments);
+                        log += $"  Найдено квартир: {apartments.Count}\n";
+                    }
+                    catch (Exception ex)
+                    {
+                        log += $"  ОШИБКА: {ex.Message}\n";
+                    }
                 }
 
-                if (allData.Count == 0)
+                if (allApartments.Count == 0)
                 {
-                    TaskDialog.Show("Информация", "Не найдено квартир в выбранных файлах.");
+                    TaskDialog.Show("Информация", "Квартиры не найдены.");
                     return Result.Cancelled;
                 }
 
-                debugInfo.AppendLine($"\nВсего квартир собрано: {allData.Count}");
+                log += $"\nВсего собрано квартир: {allApartments.Count}\n";
 
-                // Шаг 2: Группировка и сортировка ВСЕХ данных
-                debugInfo.AppendLine("\n=== ГРУППИРОВКА ДАННЫХ ===");
+                // Этап 2: Группировка и расчет номеров
+                log += "\n=== ГРУППИРОВКА И РАСЧЕТ НОМЕРОВ ===\n";
+                CalculateOrdinalNumbers(allApartments, ref log);
 
-                // Группируем по ADSK_Тип квартиры и МГН2
-                var groupedData = GroupAndSortApartments(allData, debugInfo);
-
-                // Шаг 3: Запись данных обратно в файлы
-                debugInfo.AppendLine("\n=== ЗАПИСЬ ДАННЫХ ===");
+                // Этап 3: Запись обратно в файлы
+                log += "\n=== ЗАПИСЬ В ФАЙЛЫ ===\n";
                 int totalProcessed = 0;
 
                 foreach (string filePath in dialog.FileNames)
                 {
-                    var fileData = allData.Where(d => d.FilePath == filePath).ToList();
+                    var fileApartments = allApartments.Where(a => a.FilePath == filePath).ToList();
 
-                    if (fileData.Count == 0) continue;
+                    if (fileApartments.Count == 0) continue;
 
-                    debugInfo.AppendLine($"\nЗапись в файл: {Path.GetFileName(filePath)}");
-                    debugInfo.AppendLine($"  Квартир для записи: {fileData.Count}");
+                    log += $"\nФайл: {Path.GetFileName(filePath)}\n";
+                    log += $"  Квартир для записи: {fileApartments.Count}\n";
 
-                    int processed = WriteDataToFile(uiApp.Application, filePath, fileData, debugInfo);
-                    totalProcessed += processed;
-
-                    debugInfo.AppendLine($"  Успешно записано: {processed}");
+                    try
+                    {
+                        int processed = WriteToFile(revitApp, filePath, fileApartments);
+                        totalProcessed += processed;
+                        log += $"  Успешно записано: {processed}\n";
+                    }
+                    catch (Exception ex)
+                    {
+                        log += $"  ОШИБКА: {ex.Message}\n";
+                    }
                 }
 
-                // Шаг 4: Отчет
+                // Этап 4: Отчет
                 StringBuilder report = new StringBuilder();
                 report.AppendLine("=== РЕЗУЛЬТАТЫ ОБРАБОТКИ ===");
                 report.AppendLine($"Файлов обработано: {dialog.FileNames.Length}");
-                report.AppendLine($"Всего квартир найдено: {allData.Count}");
-                report.AppendLine($"Успешно обработано: {totalProcessed}");
+                report.AppendLine($"Всего квартир найдено: {allApartments.Count}");
+                report.AppendLine($"Успешно пронумеровано: {totalProcessed}");
                 report.AppendLine();
 
                 // Группы для отчета
-                var reportGroups = allData
-                    .GroupBy(a => new { Type = a.ApartmentType ?? "Без типа", MGN2 = a.MGN2 ?? "Без МГН2" })
+                var groups = allApartments
+                    .GroupBy(a => new { Type = a.ApartmentType ?? "", MGN2 = a.MGN2 ?? "" })
                     .OrderBy(g => g.Key.Type)
                     .ThenBy(g => g.Key.MGN2);
 
-                report.AppendLine("РАСПРЕДЕЛЕНИЕ ПО ГРУППАМ:");
-                foreach (var group in reportGroups)
+                foreach (var group in groups)
                 {
-                    report.AppendLine($"\nГруппа: Тип '{group.Key.Type}', МГН2 '{group.Key.MGN2}'");
-                    report.AppendLine($"  Количество квартир: {group.Count()}");
+                    report.AppendLine($"Группа: Тип '{group.Key.Type}', МГН2 '{group.Key.MGN2}'");
 
-                    // Сортируем по номеру для отчета
                     foreach (var apt in group.OrderBy(a => a.OrdinalNumber))
                     {
-                        report.AppendLine($"  №{apt.OrdinalNumber}: Площадь {apt.Area:F2} м² ({Path.GetFileName(apt.FilePath)})");
+                        report.AppendLine($"  №{apt.OrdinalNumber}: Площадь {apt.Area:F2} м²");
                     }
+                    report.AppendLine();
                 }
 
                 // Показываем отчет
                 TaskDialog.Show("Результаты обработки", report.ToString());
 
-                // Сохраняем отладочную информацию
-                SaveDebugInfo(debugInfo.ToString());
+                // Сохраняем лог
+                SaveLog(log);
 
                 return Result.Succeeded;
             }
             catch (Exception ex)
             {
-                TaskDialog.Show("Ошибка", $"Критическая ошибка:\n{ex.Message}\n\n{ex.StackTrace}");
+                TaskDialog.Show("Ошибка", $"Критическая ошибка:\n{ex.Message}");
                 return Result.Failed;
             }
         }
 
-        private List<ApartmentData> CollectDataFromFile(Application app, string filePath, StringBuilder debugInfo)
+        private List<ApartmentData> ReadApartmentsFromFile(Autodesk.Revit.ApplicationServices.Application app, string filePath)
         {
-            var data = new List<ApartmentData>();
+            var apartments = new List<ApartmentData>();
 
             try
             {
+                if (!File.Exists(filePath))
+                    return apartments;
+
                 ModelPath modelPath = ModelPathUtils.ConvertUserVisiblePathToModelPath(filePath);
 
                 using (Document doc = app.OpenDocumentFile(modelPath, new OpenOptions()))
                 {
-                    if (doc == null) return data;
+                    if (doc == null) return apartments;
 
+                    // Собираем помещения
                     var rooms = new FilteredElementCollector(doc)
                         .OfCategory(BuiltInCategory.OST_Rooms)
                         .WhereElementIsNotElementType()
                         .Cast<Room>()
                         .ToList();
 
-                    debugInfo.AppendLine($"  Всего помещений в файле: {rooms.Count}");
-
                     foreach (var room in rooms)
                     {
                         // Проверяем назначение
                         var purposeParam = room.LookupParameter("Назначение");
-                        string purpose = purposeParam?.AsString();
-
-                        if (string.IsNullOrEmpty(purpose) || purpose != "Квартиры")
+                        if (purposeParam == null || purposeParam.AsString() != "Квартиры")
                             continue;
 
                         // Получаем параметры квартиры
-                        var aptTypeParam = room.LookupParameter("ADSK_Тип квартиры");
+                        var typeParam = room.LookupParameter("ADSK_Тип квартиры");
                         var mgn2Param = room.LookupParameter("МГН2");
                         var areaParam = room.LookupParameter("ADSK_Площадь квартиры");
 
-                        string aptType = GetParamValue(aptTypeParam);
-                        string mgn2 = GetParamValue(mgn2Param);
-                        double area = GetAreaValue(areaParam);
-
-                        if (!string.IsNullOrEmpty(aptType) && !string.IsNullOrEmpty(mgn2) && area > 0)
+                        if (typeParam != null && mgn2Param != null && areaParam != null &&
+                            typeParam.HasValue && mgn2Param.HasValue && areaParam.HasValue)
                         {
-                            data.Add(new ApartmentData
+                            string aptType = GetParameterValue(typeParam);
+                            string mgn2 = GetParameterValue(mgn2Param);
+                            double area = GetAreaValue(areaParam);
+
+                            apartments.Add(new ApartmentData
                             {
                                 FilePath = filePath,
-                                RoomId = room.Id.IntegerValue,
+                                RoomId = room.Id, // Храним ElementId
                                 ApartmentType = aptType,
                                 MGN2 = mgn2,
-                                Area = area,
-                                RoomNumber = room.Number
+                                Area = area
                             });
-                        }
-                        else
-                        {
-                            debugInfo.AppendLine($"    Пропущено помещение {room.Number}: тип='{aptType}', МГН2='{mgn2}', площадь={area}");
                         }
                     }
 
@@ -186,68 +189,76 @@ namespace RevitAddIn2BIMRU.Commands
             }
             catch (Exception ex)
             {
-                debugInfo.AppendLine($"  Ошибка при чтении файла: {ex.Message}");
+                throw new Exception($"Ошибка чтения файла: {ex.Message}", ex);
             }
 
-            return data;
+            return apartments;
         }
 
-        private Dictionary<string, List<ApartmentData>> GroupAndSortApartments(List<ApartmentData> allData, StringBuilder debugInfo)
+        private string GetParameterValue(Parameter param)
         {
-            var groupedData = new Dictionary<string, List<ApartmentData>>();
+            if (param == null || !param.HasValue) return "";
 
-            // Группируем по ключу "Тип|МГН2"
-            foreach (var apt in allData)
+            if (param.StorageType == StorageType.String)
+                return param.AsString();
+            else if (param.StorageType == StorageType.Integer)
+                return param.AsInteger().ToString();
+            else if (param.StorageType == StorageType.Double)
+                return param.AsValueString() ?? param.AsDouble().ToString();
+
+            return "";
+        }
+
+        private double GetAreaValue(Parameter param)
+        {
+            if (param == null || !param.HasValue) return 0;
+
+            if (param.StorageType == StorageType.Double)
             {
-                string key = $"{apt.ApartmentType}|{apt.MGN2}";
-
-                if (!groupedData.ContainsKey(key))
-                {
-                    groupedData[key] = new List<ApartmentData>();
-                }
-
-                groupedData[key].Add(apt);
+                return UnitUtils.ConvertFromInternalUnits(param.AsDouble(), UnitTypeId.SquareMeters);
             }
 
-            debugInfo.AppendLine($"Создано групп: {groupedData.Count}");
+            return 0;
+        }
 
-            // Для каждой группы сортируем по площади и назначаем номера
-            foreach (var key in groupedData.Keys.ToList())
+        private void CalculateOrdinalNumbers(List<ApartmentData> apartments, ref string log)
+        {
+            // Группируем по Типу и МГН2
+            var groups = apartments
+                .GroupBy(a => $"{a.ApartmentType}|{a.MGN2}")
+                .ToList();
+
+            log += $"Создано групп: {groups.Count}\n";
+
+            foreach (var group in groups)
             {
-                var group = groupedData[key];
+                log += $"\nГруппа: {group.Key}\n";
+                log += $"  Количество квартир: {group.Count()}\n";
 
                 // Сортируем по площади от меньшего к большему
-                var sortedGroup = group.OrderBy(a => a.Area).ToList();
+                var sorted = group.OrderBy(a => a.Area).ToList();
 
-                debugInfo.AppendLine($"\nГруппа: {key}");
-                debugInfo.AppendLine($"  Количество квартир: {sortedGroup.Count}");
-                debugInfo.AppendLine($"  Площади: {string.Join(", ", sortedGroup.Select(a => $"{a.Area:F2}"))}");
-
-                // Назначаем порядковые номера с учетом одинаковых площадей
-                var areaNumberMap = new Dictionary<double, int>();
+                // Назначаем номера с учетом одинаковых площадей
+                Dictionary<double, int> areaNumbers = new Dictionary<double, int>();
                 int currentNumber = 1;
 
-                foreach (var apt in sortedGroup)
+                foreach (var apt in sorted)
                 {
                     double roundedArea = Math.Round(apt.Area, 2);
 
-                    if (!areaNumberMap.ContainsKey(roundedArea))
+                    if (!areaNumbers.ContainsKey(roundedArea))
                     {
-                        areaNumberMap[roundedArea] = currentNumber;
+                        areaNumbers[roundedArea] = currentNumber;
                         currentNumber++;
                     }
 
-                    apt.OrdinalNumber = areaNumberMap[roundedArea];
-                    debugInfo.AppendLine($"    Площадь {apt.Area:F2} → Номер {apt.OrdinalNumber}");
+                    apt.OrdinalNumber = areaNumbers[roundedArea];
+                    log += $"    Площадь {apt.Area:F2} м² → Номер {apt.OrdinalNumber}\n";
                 }
-
-                groupedData[key] = sortedGroup;
             }
-
-            return groupedData;
         }
 
-        private int WriteDataToFile(Application app, string filePath, List<ApartmentData> fileData, StringBuilder debugInfo)
+        private int WriteToFile(Autodesk.Revit.ApplicationServices.Application app, string filePath, List<ApartmentData> apartments)
         {
             int processed = 0;
 
@@ -263,20 +274,16 @@ namespace RevitAddIn2BIMRU.Commands
                     {
                         trans.Start();
 
-                        foreach (var apt in fileData)
+                        foreach (var apt in apartments)
                         {
                             try
                             {
-                                ElementId roomId = new ElementId(apt.RoomId);
-                                Room room = doc.GetElement(roomId) as Room;
+                                // RoomId уже ElementId
+                                Room room = doc.GetElement(apt.RoomId) as Room;
 
-                                if (room == null)
-                                {
-                                    debugInfo.AppendLine($"    Комната {apt.RoomId} не найдена");
-                                    continue;
-                                }
+                                if (room == null) continue;
 
-                                // Ищем параметр для записи
+                                // Ищем параметр
                                 Parameter ordinalParam = room.LookupParameter("ПорядковыйНомерДляТипа");
 
                                 if (ordinalParam == null)
@@ -284,14 +291,8 @@ namespace RevitAddIn2BIMRU.Commands
                                     ordinalParam = room.LookupParameter("ADSK_Номер квартиры");
                                 }
 
-                                if (ordinalParam == null)
-                                {
-                                    ordinalParam = room.LookupParameter("ADSK_Номер квартиры по типу");
-                                }
-
                                 if (ordinalParam != null && !ordinalParam.IsReadOnly)
                                 {
-                                    // Записываем значение
                                     if (ordinalParam.StorageType == StorageType.Double)
                                         ordinalParam.Set((double)apt.OrdinalNumber);
                                     else if (ordinalParam.StorageType == StorageType.Integer)
@@ -300,23 +301,19 @@ namespace RevitAddIn2BIMRU.Commands
                                         ordinalParam.Set(apt.OrdinalNumber.ToString());
 
                                     processed++;
-                                    debugInfo.AppendLine($"    Комната {room.Number}: установлен номер {apt.OrdinalNumber}");
-                                }
-                                else
-                                {
-                                    debugInfo.AppendLine($"    Комната {room.Number}: параметр не найден или только для чтения");
                                 }
                             }
                             catch (Exception ex)
                             {
-                                debugInfo.AppendLine($"    Ошибка при записи комнаты {apt.RoomId}: {ex.Message}");
+                                // Пропускаем ошибки отдельных квартир
+                                Debug.WriteLine($"Ошибка записи квартиры: {ex.Message}");
                             }
                         }
 
                         trans.Commit();
                     }
 
-                    // Сохраняем изменения
+                    // Сохраняем
                     if (processed > 0)
                     {
                         var saveOptions = new SaveOptions();
@@ -328,46 +325,19 @@ namespace RevitAddIn2BIMRU.Commands
             }
             catch (Exception ex)
             {
-                debugInfo.AppendLine($"  Ошибка при записи в файл: {ex.Message}");
-                throw;
+                throw new Exception($"Ошибка записи: {ex.Message}", ex);
             }
 
             return processed;
         }
 
-        private string GetParamValue(Parameter param)
-        {
-            if (param == null || !param.HasValue) return string.Empty;
-
-            if (param.StorageType == StorageType.String)
-                return param.AsString();
-            else if (param.StorageType == StorageType.Integer)
-                return param.AsInteger().ToString();
-            else if (param.StorageType == StorageType.Double)
-                return param.AsValueString() ?? param.AsDouble().ToString();
-
-            return string.Empty;
-        }
-
-        private double GetAreaValue(Parameter param)
-        {
-            if (param == null || !param.HasValue) return 0;
-
-            if (param.StorageType == StorageType.Double)
-            {
-                return UnitUtils.ConvertFromInternalUnits(param.AsDouble(), UnitTypeId.SquareMeters);
-            }
-
-            return 0;
-        }
-
-        private void SaveDebugInfo(string debugInfo)
+        private void SaveLog(string logContent)
         {
             try
             {
                 string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                string logPath = Path.Combine(desktop, $"ApartmentDebug_{DateTime.Now:yyyyMMdd_HHmmss}.txt");
-                File.WriteAllText(logPath, debugInfo, Encoding.UTF8);
+                string logPath = Path.Combine(desktop, $"ApartmentLog_{DateTime.Now:yyyyMMdd_HHmmss}.txt");
+                File.WriteAllText(logPath, logContent, Encoding.UTF8);
             }
             catch { }
         }
@@ -375,8 +345,7 @@ namespace RevitAddIn2BIMRU.Commands
         private class ApartmentData
         {
             public string FilePath { get; set; }
-            public int RoomId { get; set; }
-            public string RoomNumber { get; set; }
+            public ElementId RoomId { get; set; } // Изменено с int на ElementId
             public string ApartmentType { get; set; }
             public string MGN2 { get; set; }
             public double Area { get; set; }
