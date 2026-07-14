@@ -1023,11 +1023,11 @@ namespace RevitAddIn2BIMRU.Commands
 
                 Element windowType = doc.GetElement(windowTypeId);
                 if (windowType == null) return 0;
-
-                double area = GetAreaFromDirectParameter(windowType, new[] { "Площадь", "Area", "Площадь проема", "Проем", "Площадь остекления", "Window Area" });
+                //ADSK_Размер_Площадь
+                double area = GetAreaFromDirectParameter(windowType, new[] { "ФОП_РАЗМ_Площадь", "ADSK_Размер_Площадь", "Площадь", "Area", "Площадь проема", "Проем", "Площадь остекления", "Window Area" });
                 if (area > 0) return area;
 
-                area = GetAreaFromDirectParameter(window, new[] { "Площадь", "Area", "Площадь проема", "Проем", "Площадь остекления", "Window Area" });
+                area = GetAreaFromDirectParameter(window, new[] { "ФОП_РАЗМ_Площадь", "ADSK_Размер_Площадь", "Площадь", "Area", "Площадь проема", "Проем", "Площадь остекления", "Window Area" });
                 if (area > 0) return area;
 
                 return GetAreaFromWidthHeight(window, "Ширина", "Высота", BuiltInParameter.WINDOW_WIDTH, BuiltInParameter.WINDOW_HEIGHT);

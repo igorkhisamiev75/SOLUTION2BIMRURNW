@@ -11,6 +11,7 @@ using RevitAddIn2BIMRU.Commands.BIM;
 using RevitAddIn2BIMRU.Commands.BIM.CreateWS;
 using RevitAddIn2BIMRU.Commands.INFO;
 using RevitAddIn2BIMRU.Commands.INFO.HelpBIM;
+using RevitAddIn2BIMRU.Commands.LG;
 using RevitAddIn2BIMRU.Commands.MEP;
 using RevitAddIn2BIMRU.Commands.SP;
 
@@ -41,6 +42,7 @@ namespace RevitAddIn2BIMRU
             string panelNameAnnotation = "AN-Аннотации";
             string panelNameBim = "BIM-Менеджер";
             string panelNameSP = "StanadartProject";
+            string panelNameLG = "LEGENDA";
             string panelNameInfo = "Info";
 
             // Создаем основную панели
@@ -51,6 +53,7 @@ namespace RevitAddIn2BIMRU
             RibbonPanel anPanel = Application.CreatePanel(panelNameAnnotation, tabName);
             RibbonPanel bimPanel = Application.CreatePanel(panelNameBim, tabName);
             RibbonPanel spPanel = Application.CreatePanel(panelNameSP, tabName);
+            RibbonPanel lgPanel = Application.CreatePanel(panelNameLG, tabName);
             RibbonPanel infoPanel = Application.CreatePanel(panelNameInfo, tabName);
 
             // Создаем SplitButton для панели Rooms
@@ -597,11 +600,72 @@ namespace RevitAddIn2BIMRU
                 ToolTip = "4 Разрез для стены и размещение на листе"
             };
 
-            // Добавляем все 3 кнопок в SplitButton SP
+            // Добавляем все 4 кнопок в SplitButton SP
             spSplitButton.AddPushButton(sp1SetButtonData);
             spSplitButton.AddPushButton(sp2SetButtonData);
             spSplitButton.AddPushButton(sp3SetButtonData);
             spSplitButton.AddPushButton(sp4SetButtonData);
+
+
+            // Создаем SplitButton для панели LeGenda
+            SplitButtonData splitButtonDataLG = new SplitButtonData("lgSplitButton", "Операции для LG");
+            SplitButton lgSplitButton = lgPanel.AddItem(splitButtonDataLG) as SplitButton;
+
+            // Добавляем  кнопок в SplitButton SP
+            PushButtonData lg1SetButtonData = new PushButtonData(
+                "CreateApartmentPlans",
+                "Создание планов квартир",
+                Assembly.GetExecutingAssembly().Location,
+                typeof(CreateApartmentPlans).FullName)
+            {
+                Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
+                ToolTip = "Создание планов квартир"
+            };
+
+            PushButtonData lg2SetButtonData = new PushButtonData(
+                "ExportPlansToJPEG",
+                "Экспорт выделенных планов в JPEG",
+                Assembly.GetExecutingAssembly().Location,
+                typeof(ExportPlansToJPEG).FullName)
+            {
+                Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
+                ToolTip = "Выбираем виды и жмем кнопку"
+            };
+
+            PushButtonData lg3SetButtonData = new PushButtonData(
+                "ExportPlansToPDF",
+                "Экспорт выделенных планов в PDF",
+                Assembly.GetExecutingAssembly().Location,
+                typeof(ExportPlansToPDF).FullName)
+            {
+                Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
+                ToolTip = "Выбираем виды и жмем кнопку"
+            };
+
+            //PushButtonData lg4SetButtonData = new PushButtonData(
+            //  "SectionFromCurtainWall",
+            //  "4 Разрез для стены и размещение на листе",
+            //  Assembly.GetExecutingAssembly().Location,
+            //  typeof(SectionFromCurtainWall).FullName)
+            //{
+            //    Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
+            //    LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
+            //    ToolTip = "4 Разрез для стены и размещение на листе"
+            //};
+
+            // Добавляем все 4 кнопок в SplitButton SP
+            lgSplitButton.AddPushButton(lg1SetButtonData);
+            lgSplitButton.AddPushButton(lg2SetButtonData);
+            lgSplitButton.AddPushButton(lg3SetButtonData);
+            //lgSplitButton.AddPushButton(lg4SetButtonData);
+
+
+
+
+
 
             //сайт разработчика
             infoPanel.AddPushButton<StartupCommand>("Сайт разработчика")
