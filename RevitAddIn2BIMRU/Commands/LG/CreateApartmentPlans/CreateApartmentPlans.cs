@@ -128,6 +128,7 @@ namespace RevitAddIn2BIMRU.Commands.LG
                             try
                             {
                                 ApplyCropToView(newView, boundary);
+                                doc.Regenerate();
                                 HideInternalGrids(doc, newView, boundary);
                                 AddApartmentLabel(doc, newView, firstRoom, boundary,
                                     manualCorps, manualSection, manualFloor, aptNumber, textTypeId, errorMessages);
@@ -263,7 +264,7 @@ namespace RevitAddIn2BIMRU.Commands.LG
             SpatialElementBoundaryOptions options = new SpatialElementBoundaryOptions();
             options.SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.Finish;
             List<Solid> solids = new List<Solid>();
-            double offsetDistance = 0.3;
+            double offsetDistance = 1.2;
 
             foreach (Room room in rooms)
             {

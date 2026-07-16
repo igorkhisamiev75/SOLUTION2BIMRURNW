@@ -223,33 +223,47 @@ namespace RevitAddIn2BIMRU
                 ToolTip = "Сделать отделку на лестнице"
             };
 
-            //PushButtonData ai3SetButtonData = new PushButtonData(
-            //    "AIOperation3",
-            //    "AI операция 3",
-            //    Assembly.GetExecutingAssembly().Location,
-            //    typeof(YourAICommand3).FullName)
-            //{
-            //    Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
-            //    LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
-            //    ToolTip = "Описание AI функции 3"
-            //};
+            PushButtonData ai3SetButtonData = new PushButtonData(
+                "CountFinishWall",
+                "Посчитать отделку стены",
+                Assembly.GetExecutingAssembly().Location,
+                typeof(CountFinishWall).FullName)
+            {
+                Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/kist16.png")),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/kist32.png")),
+                ToolTip = "Посчитать стены для записи в помещения"
+            };
 
-            //PushButtonData ai4SetButtonData = new PushButtonData(
-            //    "AIOperation4",
-            //    "AI операция 4",
-            //    Assembly.GetExecutingAssembly().Location,
-            //    typeof(YourAICommand4).FullName)
-            //{
-            //    Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon16.png")),
-            //    LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/RibbonIcon32.png")),
-            //    ToolTip = "Описание AI функции 4"
-            //};
+            PushButtonData ai4SetButtonData = new PushButtonData(
+                "CountFinishFloor",
+                "Посчитать отделку полы-перекрытия",
+                Assembly.GetExecutingAssembly().Location,
+                typeof(CountFinishFloor).FullName)
+            {
+                Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/kist16.png")),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/kist32.png")),
+                ToolTip = "Посчитать отделку полы для записи в помещения"
+            };
 
-            // Добавляем все 4 кнопки в SplitButton AI
+            PushButtonData ai5SetButtonData = new PushButtonData(
+                "CountFinishCeiling",
+                "Посчитать отделку потолки",
+                Assembly.GetExecutingAssembly().Location,
+                typeof(CountFinishCeiling).FullName)
+            {
+                Image = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/kist16.png")),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitAddIn2BIMRU;component/Resources/Icons/kist32.png")),
+                ToolTip = "Посчитать отделку потолки для записи в помещения"
+            };
+
+            
+            // Добавляем все 5 кнопки в SplitButton AI
             aiSplitButton.AddPushButton(ai1SetButtonData);
             aiSplitButton.AddPushButton(ai2SetButtonData);
-            //aiSplitButton.AddPushButton(ai3SetButtonData);
-            //aiSplitButton.AddPushButton(ai4SetButtonData);
+            aiSplitButton.AddPushButton(ai3SetButtonData);
+            aiSplitButton.AddPushButton(ai4SetButtonData);
+            aiSplitButton.AddPushButton(ai5SetButtonData);
+
 
             //MEP настройки
 
@@ -293,7 +307,7 @@ namespace RevitAddIn2BIMRU
 
             PushButtonData mep4SetButtonData = new PushButtonData(
                "CreatePipeSectionView",
-               "Разрер по элементу",
+               "Разрез по элементу",
                Assembly.GetExecutingAssembly().Location,
                typeof(CreatePipeSectionView).FullName)
             {
